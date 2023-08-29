@@ -12,6 +12,12 @@
                             <th style="width: 10%;">
                                 Name
                             </th>
+                            <th style="width: 10%;">
+                                Page/System
+                            </th>
+                            <th style="width: 10%;">
+                                Name
+                            </th>
                         </tr>
                     </thead>
                     <tbody>

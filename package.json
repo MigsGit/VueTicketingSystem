@@ -16,6 +16,7 @@
         "pinia": "^2.1.6",
         "pinia-plugin-persistedstate-2": "^2.0.14",
         "toastr": "^2.1.4",
+        "startbootstrap-sb-admin": "^7.0.7",
         "vue": "^3.2.36",
         "vue-loader": "^17.2.2",
         "vue-router": "^4.2.4",
