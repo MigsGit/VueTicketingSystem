@@ -14,6 +14,7 @@ import "startbootstrap-sb-admin/dist/js/datatables-simple-demo.js";
 /*
 Local JS extensions
 */
+import 'vue-toast-notification/dist/theme-bootstrap.css'
 import router from "../routes";
 createApp(AppTemplate)
 // .component('index-component', IndexComponent)

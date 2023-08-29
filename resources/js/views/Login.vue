@@ -8,7 +8,11 @@ const infoLogin = {
     password : '',
 };
 
+const storeAuth = useAuthStore();
 
+const sigin = async () => {
+    storeAuth.login(infoLogin);
+};
         
 </script>
 <template>

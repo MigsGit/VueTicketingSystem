@@ -1,3 +1,11 @@
+<script setup>
+import { useAuthStore } from '../stores';
+const storeAuth = useAuthStore();
+
+const logoutSession = async () => {
+    storeAuth.logout();
+};
+</script>
 <template>
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
@@ -25,13 +33,3 @@
         </ul>
     </nav>
 </template>
-
-<script>
-    export default {
-
-    }
-</script>
-
-<style lang="scss" scoped>
-
-</style>

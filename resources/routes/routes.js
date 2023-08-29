@@ -14,6 +14,7 @@ export default [
         children: [
             {
                 path: '/login',
+                name: 'login',
                 component: Login,
             },
         ]
@@ -24,10 +25,12 @@ export default [
         children: [
             {
                 path: '/dashboard',
+                name: 'dashboard',
                 component: Dashboard,
             },
             {
                 path: '/user_master',
+                name: 'user_master',
                 component: UserMaster,
             },
 
