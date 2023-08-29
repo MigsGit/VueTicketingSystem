@@ -1,3 +1,7 @@
+<script setup>
+import { useAuthStore } from '../stores';
+const useAuth = useAuthStore();
+</script>
 <template>
     <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
@@ -18,16 +22,7 @@
         </div>
         <div class="sb-sidenav-footer">
             <div class="small">Logged in as:</div>
-            Admin
+            {{ useAuth.name }}
         </div>
     </nav>
 </template>
-<script>
-    export default {
-
-    }
-</script>
-
-<style lang="scss" scoped>
-
-</style>
