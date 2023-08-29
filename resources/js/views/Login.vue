@@ -15,7 +15,7 @@
                                         </div>
                                         <div class="form-floating mb-3">
                                             <input class="form-control" v-model="infoLogin.password" ref="txtPassword" type="password" placeholder="Password"/>
-                                            <label for="inputPassword">Password</label>
+                                            <label for="inputPassword">Passwords</label>
                                             <div v-if="this.errorMsg != null" class="invalid-feedback">
                                             </div>
                                         </div>
