@@ -1,6 +1,9 @@
 import './bootstrap'
 import {createApp} from 'vue'
-import IndexComponent from './views/IndexComponent.vue'
+// import IndexComponent from './views/IndexComponent.vue'
+import AppTemplate from './layouts/App.vue';
+import { pinia } from './stores/index.js';
+
 
 /*
 startbootstrap-sb-admin template
@@ -12,7 +15,8 @@ import "startbootstrap-sb-admin/dist/js/datatables-simple-demo.js";
 Local JS extensions
 */
 import router from "../routes";
-createApp()
-.component('index-component', IndexComponent)
+createApp(AppTemplate)
+// .component('index-component', IndexComponent)
+.use(pinia)
 .use(router)
 .mount('#app');

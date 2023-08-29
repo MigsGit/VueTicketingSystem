@@ -1,6 +1,7 @@
 import IndexComponent from '../js/views/IndexComponent.vue'
 import Login from '../js/views/Login.vue'
-import PanelTemplate from '../js/views/admin/AdminPanel.vue'
+// import PanelTemplate from '../js/views/admin/AdminPanel.vue'
+import PanelTemplate from '../js/views/IndexComponent.vue';
 import Dashboard from '../js/views/admin/Dashboard.vue'
 import UserMaster from '../js/views/admin/UserMaster.vue'
 

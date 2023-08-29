@@ -7,10 +7,12 @@
     <title>LaraVue Ticketing System</title>
     @vite(['/resources/sass/app.scss','resources/js/app.js'])
 </head>
-<body class="font-sans antialiased">
+<body class="font-sans antialiased sb-nav-fixed">
     <div  id="app">
+        <router-view/>
+
         {{-- <route-view></route-view> --}}
-        <index-component></index-component>
+        {{-- <index-component></index-component> --}}
     </div>
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </body>

@@ -1,3 +1,16 @@
+<script setup>
+import { useRouter, useRoute  } from 'vue-router'
+
+import { useAuthStore } from "../stores";
+
+const infoLogin = {
+    email : '',
+    password : '',
+};
+
+
+        
+</script>
 <template>
     <div id="layoutAuthentication">
         <div id="layoutAuthentication_content">
@@ -40,140 +53,4 @@
         </div>
     </div>
 </template>
-<script setup>
-import {inject} from 'vue'
-import { useRouter, useRoute  } from 'vue-router'
-    const infoLogin = {
-        email : '',
-        password : '',
-    };
-    const router = useRouter();
-
-    async function sigin() {
-
-            try {
-                console.log('panel_admin')
-                router.push("/dashboard")
-                /* Serialized the form */
-                let response = await axios.post("signin", this.infoLogin);
-                let status = response.status;
-                let userInfo = response.data.user;
-
-                console.log(response);
-                if(status == 200){
-                    this.$store.dispatch("user", userInfo);
-                    this.$router.push("/dashboard");
-                }else{
-                    alert('Invalid User. Please check the code');
-                }
-                // let route = this.$router.resolve({path: '/dashboard'}); //reload the page to dashboard
-                // let route = this.$router.resolve('/link/to/page'); // This also works.
-                // window.open(route.href, '_blank');
-            } catch (error) {
-                // let resultError = error.response.data.errors;
-                // let invalidUserError = error.response;
-                // // console.log(invalidUserError);
-                // if(invalidUserError.status === 401){
-                //     this.$refs.txtEmail.classList.add('is-invalid');
-                //     this.$refs.txtPassword.classList.add('is-invalid');
-                //     this.errorMsg  = invalidUserError.data.msg
-                //     return false;
-                // }
-                // if(invalidUserError.status === 400){
-                //     this.$refs.txtEmail.classList.add('is-invalid');
-                //     this.$refs.txtPassword.classList.add('is-invalid');
-                //     this.errorMsg  = "Bad Request: Server Failed";
-                //     return false;
-                // }else{
-                //     if (!this.infoLogin.email) {
-                //         this.$refs.txtEmail.classList.add('is-invalid');
-                //         this.$refs.txtEmail.title = resultError.email[0];
-                //     }else{
-                //         this.$refs.txtEmail.classList.remove('is-invalid');
-                //         this.$refs.txtEmail.classList.add('is-valid');
-                //         this.$refs.txtEmail.title = "";
-                //     }
-                //     if (!this.infoLogin.password) {
-                //         this.$refs.txtPassword.classList.add('is-invalid');
-                //         this.$refs.txtPassword.title = resultError.password[0];
-                //     }else{
-                //         this.$refs.txtPassword.classList.remove('is-invalid');
-                //         this.$refs.txtPassword.classList.add('is-valid');
-                //         this.$refs.txtPassword.title = "";
-                //     }
-                // }
-            }
-        }
-    // export default {
-
-    //     name:"Login",
-    //     data(){
-    //         return {
-    //             infoLogin:{
-    //                 email:"migz@gmail.com",
-    //                 password:"pmi12345",
-    //             }, /** Serialized the login form */
-    //             errorMsg : "",
-    //         }
-    //     },
-    //     mounted() {
-    //     },
-    //     methods: {
-    //         async sigin() {
-    //             try {
-    //                 /* Serialized the form */
-    //                 let response = await axios.post("signin", this.infoLogin);
-    //                 let status = response.status;
-    //                 let userInfo = response.data.user;
-
-    //                 console.log(response);
-    //                 if(status == 200){
-    //                     this.$store.dispatch("user", userInfo);
-    //                     this.$router.push("/dashboard");
-    //                 }else{
-    //                     alert('Invalid User. Please check the code');
-    //                 }
-    //                 // let route = this.$router.resolve({path: '/dashboard'}); //reload the page to dashboard
-    //                 // let route = this.$router.resolve('/link/to/page'); // This also works.
-    //                 // window.open(route.href, '_blank');
-    //             } catch (error) {
-    //                 let resultError = error.response.data.errors;
-    //                 let invalidUserError = error.response;
-    //                 // console.log(invalidUserError);
-    //                 if(invalidUserError.status === 401){
-    //                     this.$refs.txtEmail.classList.add('is-invalid');
-    //                     this.$refs.txtPassword.classList.add('is-invalid');
-    //                     this.errorMsg  = invalidUserError.data.msg
-    //                     return false;
-    //                 }
-    //                 if(invalidUserError.status === 400){
-    //                     this.$refs.txtEmail.classList.add('is-invalid');
-    //                     this.$refs.txtPassword.classList.add('is-invalid');
-    //                     this.errorMsg  = "Bad Request: Server Failed";
-    //                     return false;
-    //                 }else{
-    //                     if (!this.infoLogin.email) {
-    //                         this.$refs.txtEmail.classList.add('is-invalid');
-    //                         this.$refs.txtEmail.title = resultError.email[0];
-    //                     }else{
-    //                         this.$refs.txtEmail.classList.remove('is-invalid');
-    //                         this.$refs.txtEmail.classList.add('is-valid');
-    //                         this.$refs.txtEmail.title = "";
-    //                     }
-    //                     if (!this.infoLogin.password) {
-    //                         this.$refs.txtPassword.classList.add('is-invalid');
-    //                         this.$refs.txtPassword.title = resultError.password[0];
-    //                     }else{
-    //                         this.$refs.txtPassword.classList.remove('is-invalid');
-    //                         this.$refs.txtPassword.classList.add('is-valid');
-    //                         this.$refs.txtPassword.title = "";
-    //                     }
-    //                 }
-    //             }
-    //         },async fnIsTextOrPassword(){
-    //             console.log('dasdsa');
-    //         }
-    //     }
-    // }
-</script>
 
