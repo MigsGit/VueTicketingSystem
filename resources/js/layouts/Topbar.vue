@@ -1,9 +1,24 @@
 <script setup>
 import { useAuthStore } from '../stores';
+import Swal from 'sweetalert2';
+
 const storeAuth = useAuthStore();
 
 const logoutSession = async () => {
-    storeAuth.logout();
+    await Swal.fire({
+        title: 'Logout',
+        text: 'Are you sure you want to logout?',
+        icon: 'warning',
+        allowOutsideClick: false,
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            storeAuth.logout();
+        }
+    })
 };
 </script>
 <template>
