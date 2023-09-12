@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->string('ticket_no');
+            $table->string('max_unique_no');
             $table->string('subject');
             $table->string('message');
             $table->string('status')->default(0)->comment = "0-unassigned, 1-assigned, 2-DNMR, 3-closed";
