@@ -5,6 +5,9 @@ import PanelTemplate from '../js/views/IndexComponent.vue';
 import Dashboard from '../js/views/admin/Dashboard.vue'
 import UserMaster from '../js/views/admin/UserMaster.vue'
 
+// USER
+import Ticket from '../js/views/user/Ticket.vue';
+
 console.log('routes');
 export default [
     {
@@ -33,6 +36,11 @@ export default [
                 name: 'user_master',
                 component: UserMaster,
             },
+            {
+                path: 'ticket',
+                name: 'ticket',
+                component: Ticket
+            }
         ]
     }
 ];
