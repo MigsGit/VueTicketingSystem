@@ -14,10 +14,19 @@ use App\Http\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('main');
+Route::middleware('CheckHasNoSession')->group(function(){
+    Route::get('/', function () {
+        return view('main');
+    });
 });
+Route::middleware('CheckHasSession')->group(function(){
+    Route::get('/panel_template/{any}', function(){
+        return view('main');
+    })->where('any','.*');
+});
+
+
 
 Route::post('/login',[AuthController::class, 'login']);
 Route::get('/logout',[AuthController::class, 'logout']);
+Route::get('/check_ses',[AuthController::class, 'check_ses']);

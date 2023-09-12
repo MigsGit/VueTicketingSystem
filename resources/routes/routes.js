@@ -20,16 +20,16 @@ export default [
         ]
     },
     {
-        path: '/panel_template',
+        path: '/panel_template/',
         component: PanelTemplate,
         children: [
             {
-                path: '/dashboard',
+                path: 'dashboard',
                 name: 'dashboard',
                 component: Dashboard,
             },
             {
-                path: '/user_master',
+                path: 'user_master',
                 name: 'user_master',
                 component: UserMaster,
             },
