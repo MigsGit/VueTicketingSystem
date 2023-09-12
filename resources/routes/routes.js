@@ -13,7 +13,7 @@ export default [
         component: Login,
         children: [
             {
-                path: '/login',
+                path: '/',
                 name: 'login',
                 component: Login,
             },
@@ -33,7 +33,6 @@ export default [
                 name: 'user_master',
                 component: UserMaster,
             },
-
         ]
     }
 ];
