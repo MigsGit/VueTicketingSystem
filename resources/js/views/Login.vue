@@ -4,8 +4,8 @@ import { useRouter, useRoute  } from 'vue-router'
 import { useAuthStore } from "../stores";
 
 const infoLogin = {
-    email : '',
-    password : '',
+    email : 'migz@gmail.com',
+    password : 'pmi12345',
 };
 
 const storeAuth = useAuthStore();

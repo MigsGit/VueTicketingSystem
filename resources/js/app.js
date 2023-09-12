@@ -4,7 +4,6 @@ import {createApp} from 'vue'
 import AppTemplate from './layouts/App.vue';
 import { pinia } from './stores/index.js';
 
-
 /*
 startbootstrap-sb-admin template
 */
@@ -17,7 +16,6 @@ Local JS extensions
 import 'vue-toast-notification/dist/theme-bootstrap.css'
 import router from "../routes";
 createApp(AppTemplate)
-// .component('index-component', IndexComponent)
 .use(pinia)
 .use(router)
 .mount('#app');
