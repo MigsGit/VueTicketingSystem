@@ -6,16 +6,20 @@ const useAuth = useAuthStore();
     <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
             <div class="nav">
-                <div class="sb-sidenav-menu-heading">Core</div>
+                <!-- <div class="sb-sidenav-menu-heading">Core</div> -->
                 <!-- <a class="nav-link" href="index.html">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Dashboard
                 </a> -->
-                    <router-link class="nav-link" to="/dashboard">
+                    <router-link class="nav-link" :to="{ name: 'dashboard' }">
                         <i class="fas fa-tachometer-alt"></i>&nbsp;Dashboard
                     </router-link>
-                <div class="sb-sidenav-menu-heading">Menu</div>
-                    <router-link class="sb-nav-link-icon nav-link" to="user_master">
+                <div class="sb-sidenav-menu-heading">User</div>
+                    <router-link class="sb-nav-link-icon nav-link" :to="{ name: 'ticket' }">
+                        <i class="fa-brands fa-d-and-d"></i>&nbsp; Ticket
+                    </router-link>
+                <div class="sb-sidenav-menu-heading">Admin</div>
+                    <router-link class="sb-nav-link-icon nav-link" :to="{ name: 'user_master' }">
                         <i class="fas fa-user"></i>&nbsp; User Tables
                     </router-link>
             </div>
