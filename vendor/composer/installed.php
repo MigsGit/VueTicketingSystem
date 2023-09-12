@@ -2,10 +2,7 @@
     'root' => array(
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-<<<<<<< HEAD
         'reference' => '9bb136e8fad169df7b23ec308b5c085cb218ec5e',
-=======
->>>>>>> chris_v1
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -380,10 +377,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-<<<<<<< HEAD
             'reference' => '9bb136e8fad169df7b23ec308b5c085cb218ec5e',
-=======
->>>>>>> chris_v1
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
