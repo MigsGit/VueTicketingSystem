@@ -19,5 +19,7 @@ use App\Http\Controllers\Api\UserController;
 //     return $request->user();
 // });
 Route::get('get_user_info', [UserController::class , 'getUserInfo'])->name('get_user_info');
+Route::get('read_user_info', [UserController::class , 'readUserInfo'])->name('read_user_info');
+Route::post('save_user_info', [UserController::class , 'saveUserInfo'])->name('save_user_info');
 Route::group(['middleware' => ['auth:sanctum']], function () {
 });
