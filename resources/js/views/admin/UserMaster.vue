@@ -128,7 +128,7 @@
     }
     async function fnSaveUserInfo(){
         try {
-            let response = await axios.post('api/save_user_info',frmUserInfo.value)
+            let response = await axios.post('/api/save_user_info',frmUserInfo.value)
             // console.log(response)
             objModalUserInfo.hide();
         }

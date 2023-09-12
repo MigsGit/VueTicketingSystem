@@ -1,10 +1,9 @@
 import { defineStore } from "pinia";
 import Router from "../../routes/";
 import axios from "axios";
-import {useToastr} from '../components/toaster.js';
-// import { useToast } from 'vue-toast-notification';
-const toastr = useToastr();
-
+// import {useToastr} from '../components/toaster.js';
+import { useToast } from 'vue-toast-notification';
+const toastr = useToast();
 export const useAuthStore = defineStore("auth", {
     state: () => ({
         email: null,
@@ -18,16 +17,22 @@ export const useAuthStore = defineStore("auth", {
     actions: {
         async login(credentials){
             console.log(credentials);
-            // toastr.success("test"); // * usage of Toastr notification
+          
             await axios.post('/login',credentials).then((res)=>{
                 console.log(res.data.userData);
                 this.email = res.data.userData.email;
                 this.name = res.data.userData.name;
                 Router.push({name: 'dashboard'});
-                // location.reload();
+                location.reload();
             })
             .catch((err)=>{
-
+                console.log(err);
+                toastr.open({
+                    message: err.response.data.msg,
+                    type: 'error',
+                    position: 'top-right',
+                    duration: 2000,
+                }); // * usage of Toastr notification
             });
         },
         async logout(){

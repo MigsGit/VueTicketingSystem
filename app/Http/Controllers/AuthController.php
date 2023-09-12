@@ -17,6 +17,12 @@ class AuthController extends Controller
 
         $user_info = User::where('email', $request->email)->get();
 
+        // return $user_info;
+        if($user_info[0]['deleted_at'] != null){
+            return response()->json([
+                'msg' => "User account is deactivated <br> Please call administrator."
+            ], 402);
+        }
         if(isset($user_info)){
             if(!Auth::attempt([
                 'email' => $request->email,
@@ -26,7 +32,6 @@ class AuthController extends Controller
                     'msg' => "Username or Password is incorrect"
                 ], 401);
             }
-
             $request->session()->put('id', Auth::user()->id); 
             $request->session()->put('username', Auth::user()->email); 
 
