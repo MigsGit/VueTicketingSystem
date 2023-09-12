@@ -24,6 +24,7 @@ export const useAuthStore = defineStore("auth", {
                 this.email = res.data.userData.email;
                 this.name = res.data.userData.name;
                 Router.push({name: 'dashboard'});
+                // location.reload();
             })
             .catch((err)=>{
 
