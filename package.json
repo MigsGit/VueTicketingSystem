@@ -9,10 +9,14 @@
         "laravel-vite-plugin": "^0.7.2",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
+        "sass": "^1.66.1",
         "vite": "^4.0.0"
     },
     "dependencies": {
         "@vitejs/plugin-vue": "^4.3.3",
+        "boostrap": "^2.0.0",
+        "datatables.net-bs5": "^1.13.6",
+        "datatables.net-vue3": "^2.1.3",
         "pinia": "^2.1.6",
         "pinia-plugin-persistedstate-2": "^2.0.14",
         "startbootstrap-sb-admin": "^7.0.7",
