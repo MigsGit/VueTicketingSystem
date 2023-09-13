@@ -4,10 +4,8 @@
     
     DataTable.use(DataTablesCore);
 
-    import { Modal } from "bootstrap";
     import { onMounted, ref, reactive, watch,nextTick } from "vue";
     import $ from 'jquery';
-    import api from '../../axios';
 
     const modalTicket = ref();
     const tableTicket = ref();
@@ -18,11 +16,14 @@
         ticketModal: 'Add Ticket'
     })
     const formTicket = ref();
-    const ticketForm = reactive({
+
+    const initialTicketForm = reactive({
         id: "",
         subject: "",
         message: "",
     });
+    const ticketForm = reactive({ ...initialTicketForm });
+
     import { useToast } from 'vue-toast-notification';
     const toastr = useToast();
 
@@ -33,20 +34,25 @@
         await getTicket();
         state.userModal = new Modal(modalTicket.value, {});
         modalTicket.value.addEventListener('hidden.bs.modal', event => {
-            // console.log('modalUser closed');
+            console.log('modalUser closed');
+            formTicket.value.reset();
+            Object.assign(ticketForm, initialTicketForm);
         });
     })
+    /*
+        * WATCH will reload the DataTable after saving.
+        * This will serve as .draw()
+    */
     watch(columns, async (columns) => {
         console.log(columns);
         dt.destroy();
         nextTick(() => {
             dt = $(tableTicket.value).DataTable()
-        });
-        
-    })
+        }); 
+    });
 
     const getTicket = async () => {
-        await api.get('api/get_tickets').then((res) => {
+        await axios.get('/api/get_tickets').then((res) => {
             // console.log(res.data);
             columns.value = res.data;
             
@@ -58,7 +64,7 @@
     const saveTicket = async () => {
         const formData = new FormData(formTicket.value);
         
-        await api.post('api/save_ticket', formData).then((res) => {
+        await axios.post('/api/save_ticket', formData).then((res) => {
             console.log(res);
             if(res.data.result == 1){
                 toastr.open({
@@ -76,8 +82,16 @@
     }
     const editTicket = async (ticketId) => {
         // console.log(ticketId);
-        await api.get('api/get_ticket_info', { params: { id: ticketId } }).then((res) => {
+        await axios.get('/api/get_ticket_info', { params: { id: ticketId } }).then((res) => {
+            console.log(res);
+            state.userModal.show();
+            state.ticketModal = "Edit Ticket";
 
+            ticketForm.id = res.data.ticketData.id;
+            ticketForm.subject = res.data.ticketData.subject;
+            ticketForm.message = res.data.ticketData.message;
+
+            
         }).catch((err) => {
 
         });
@@ -99,6 +113,8 @@
                             <th>Action</th>
                             <th>Status</th>
                             <th>Ticket No.</th>
+                            <th>Subject</th>
+                            <th>Message</th>
                             <th>Assigned To</th>
                             <th>Resolution Time</th>
                         </tr>
@@ -113,6 +129,8 @@
                                 <span class="badge bg-info" v-else-if="row.status == 1">Assigned</span>
                             </td>
                             <td>{{ row.ticket_no }}</td>
+                            <td>{{ row.subject }}</td>
+                            <td>{{ row.message }}</td>
                             <td>{{ row.assign_to }}</td>
                             <td>{{ row.res_time }}</td>
                         </tr>
