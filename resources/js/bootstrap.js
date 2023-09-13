@@ -1,7 +1,8 @@
 import "bootstrap";
 import _ from 'lodash';
 import { Modal } from 'bootstrap';
-
+import axios from 'axios';
+import $ from "jquery";
 window._ = _;
 
 /**
@@ -10,7 +11,7 @@ window._ = _;
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-import axios from 'axios';
+
 
 window.axios = axios;
 
@@ -18,7 +19,14 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 window.Modal = Modal;
 
+try {
+    // window.Popper = require('popper.js').default;
+    window.$ = $;
 
+    // require('bootstrap');
+} catch (e) {
+    console.log("JQUERY ERROR: " + e);
+}
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
