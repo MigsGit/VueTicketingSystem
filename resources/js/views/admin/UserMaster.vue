@@ -97,7 +97,7 @@
 
     // const swal = inject('$swal')
     async function fnFetchUserInfo(){
-        let response = await axios.get('api/get_user_info');
+        let response = await axios.get('/api/get_user_info');
         getUserInfo.value = response.data.data;
     }
     async function fnClckUserInfo(event){
@@ -107,7 +107,7 @@
         if(dataId == null){
             console.log('dataId');
         }else{
-            let response = await axios.get('api/read_user_info',{
+            let response = await axios.get('/api/read_user_info',{
             params:{data_id : dataId}
             });
             let data = response.data;
@@ -128,7 +128,7 @@
     }
     async function fnSaveUserInfo(){
         try {
-            let response = await axios.post('api/save_user_info',frmUserInfo.value)
+            let response = await axios.post('/api/save_user_info',frmUserInfo.value)
             // console.log(response)
             objModalUserInfo.hide();
         }
