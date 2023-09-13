@@ -4,8 +4,8 @@ import { useRouter, useRoute  } from 'vue-router'
 import { useAuthStore } from "../stores";
 
 const infoLogin = {
-    email : 'migz@gmail.com',
-    password : 'pmi12345',
+    email : 'cdp@gmail.com',
+    password : 'pmi1234',
 };
 
 const storeAuth = useAuthStore();
@@ -33,8 +33,8 @@ const sigin = async () => {
                                         <div class="form-floating mb-3">
                                             <input class="form-control" v-model="infoLogin.password" ref="txtPassword" type="password" placeholder="Password"/>
                                             <label for="inputPassword">Passwords</label>
-                                            <div v-if="this.errorMsg != null" class="invalid-feedback">
-                                            </div>
+                                            <!-- <div v-if="this.errorMsg != null" class="invalid-feedback"> -->
+                                            <!-- </div> -->
                                         </div>
                                         <div class="form-check mb-3">
                                             <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />

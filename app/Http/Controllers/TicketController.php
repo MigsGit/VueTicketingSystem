@@ -26,20 +26,40 @@ class TicketController extends Controller
     }
     public function save_ticket(Request $request){
         date_default_timezone_set('Asia/Manila');
+        if(isset($request->ticketId)){ // * UPDATE
+
+        }
+        else{  // * CREATE
+            $date = date('Ymd');
+            $ticket_number = "SR+$date";
+
+            $unique_number = Ticket::where('created_at', 'LIKE', date('Y')."%")->max('max_unique_no');
+
+            if(isset($unique_number)){
+                $new_unique = str_pad($unique_number, 8, "0", STR_PAD_LEFT);
+
+            }
+            else{
+                $unique_number = 1;
+                $new_unique = str_pad($unique_number, 8, "0", STR_PAD_LEFT);
+            }
+            $ticket_number = "SR+$date$new_unique";
+
+            $insert_array = array(
+                'ticket_no'         => $ticket_number,
+                'max_unique_no'     => $new_unique,
+                'subject'           => $request->ticket_subject,
+                'message'           => $request->ticket_message,
+                'created_by'        => $request->session()->get('id')
+            );
+
+            Ticket::insert(
+                $insert_array
+            );
+
+            return response()->json(['result' => 1, 'msg' => 'Ticket Successfully Added!']);
+        }
         
-        $date = date('Ymd');
-        $ticket_number = "SR+$date";
-
-        $unique_number = Ticket::where('created_at', 'LIKE', date('Y')."%")->max('max_unique_no');
-
-        if(isset($unique_number)){
-            $new_unique = str_pad($unique_number, 8, "0", STR_PAD_LEFT);
-        }
-        else{
-            $unique_number = 1;
-            $new_unique = str_pad($unique_number, 8, "0", STR_PAD_LEFT);
-        }
-        return $new_unique;
     }
     public function get_ticket_info(Request $request){
         DB::beginTransaction();
