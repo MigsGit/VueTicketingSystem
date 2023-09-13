@@ -28,7 +28,7 @@
     const toastr = useToast();
 
     var dt = null;
-    dt = $(tableTicket.value).DataTable();
+    dt = $(tableTicket.value).DataTable({});
 
     onMounted( async () => {
         await getTicket();
