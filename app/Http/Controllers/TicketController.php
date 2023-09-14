@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +21,7 @@ class TicketController extends Controller
             DB::rollback();
             return $e;
         }
-       
+
     }
     public function save_ticket(Request $request){
         date_default_timezone_set('Asia/Manila');
@@ -65,10 +64,9 @@ class TicketController extends Controller
             Ticket::insert(
                 $insert_array
             );
-
             return response()->json(['result' => 1, 'msg' => 'Ticket Successfully Added!']);
         }
-        
+
     }
     public function get_ticket_info(Request $request){
         DB::beginTransaction();
