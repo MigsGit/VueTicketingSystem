@@ -1,7 +1,7 @@
 <script setup>
     import DataTable from 'datatables.net-vue3';
     import DataTablesCore from 'datatables.net-bs5';
-    
+
     DataTable.use(DataTablesCore);
 
     import { Modal } from "bootstrap";
@@ -49,7 +49,7 @@
 
     const saveTicket = async () => {
         const formData = new FormData(ticketForm.value);
-        
+
         await api.post('api/save_ticket', formData).then((res) => {
 
         }).catch((err) => {
@@ -71,10 +71,8 @@
         <h1 class="mt-4">Ticket</h1>
         <div class="card mt-5"  style="width: 100%;">
             <div class="card-body overflow-auto">
-                
-                <button type="button" class="btn btn-primary" style="float: right !important;" data-bs-toggle="modal" data-bs-target="#ModalTicket" @click="ticketModal = 'Add Ticket'"><i class="fas fa-plus"></i> Add Ticket</button>
+                <button type="button" class="btn btn-primary" style="float: right !important;" data-bs-toggle="modal" data-bs-target="#ModalTicket" @click="state.ticketModal = 'Add Ticket'"><i class="fas fa-plus"></i> Add Ticket</button>
                 <br><br>
-            
                 <table class="table table-sm table-bordered table-striped table-hover dt-responsive wrap" ref="tableTicket">
                     <thead>
                         <tr>
@@ -118,7 +116,7 @@
                                 <div class="input-group-prepend w-50">
                                     <span class="input-group-text w-100" id="basic-addon1" style="background-color: #17a2b8; color: white;">Sub:</span>
                                 </div>
-                                
+
                                     <input type="text" class="form-control" name="packingCtrl" id="packingControlId" readonly>
                             </div> -->
                             <div class="form-group">
