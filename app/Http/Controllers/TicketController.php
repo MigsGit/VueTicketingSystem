@@ -22,11 +22,10 @@ class TicketController extends Controller
             DB::rollback();
             return $e;
         }
-       
+
     }
     public function save_ticket(Request $request){
         date_default_timezone_set('Asia/Manila');
-        
         $date = date('Ymd');
         $ticket_number = "SR+$date";
 
@@ -40,6 +39,7 @@ class TicketController extends Controller
             $new_unique = str_pad($unique_number, 8, "0", STR_PAD_LEFT);
         }
         return $new_unique;
+
     }
     public function get_ticket_info(Request $request){
         DB::beginTransaction();
