@@ -16,14 +16,14 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->string('ticket_no');
-            $table->bigInteger('max_unique_no');
+            $table->string('max_unique_no');
             $table->string('subject');
             $table->string('message');
             $table->string('status')->default(0)->comment = "0-unassigned, 1-assigned, 2-DNMR, 3-closed";
             $table->unsignedSmallInteger('assigned_to')->nullable();
             $table->unsignedSmallInteger('resolution_time')->nullable();
             $table->unsignedSmallInteger('created_by');
-            $table->unsignedSmallInteger('updated_by')->nullable();
+            $table->unsignedSmallInteger('updated_by');
             $table->softDeletes();
             $table->timestamps();
         });
