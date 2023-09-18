@@ -10,10 +10,10 @@
     const modalTicket = ref();
     const tableTicket = ref();
     const columns = ref();
-    // const ticketModal = ref();
+    // const ticketModalTitle = ref();
     const state = reactive({
-        userModal: null,
-        ticketModal: 'Add Ticket'
+        ticketModal: null,
+        ticketModalTitle: 'Add Ticket'
     })
     const formTicket = ref();
 
@@ -32,7 +32,7 @@
 
     onMounted( async () => {
         await getTicket();
-        state.userModal = new Modal(modalTicket.value, {});
+        state.ticketModal = new Modal(modalTicket.value, {});
         modalTicket.value.addEventListener('hidden.bs.modal', event => {
             console.log('modalUser closed');
             formTicket.value.reset();
@@ -74,7 +74,7 @@
                     duration: 2000,
                 }); // * usage of Toastr notification
                 getTicket();
-                state.userModal.hide();
+                state.ticketModal.hide();
             }
         }).catch((err) => {
 
@@ -84,8 +84,8 @@
         // console.log(ticketId);
         await axios.get('/api/get_ticket_info', { params: { id: ticketId } }).then((res) => {
             console.log(res);
-            state.userModal.show();
-            state.ticketModal = "Edit Ticket";
+            state.ticketModal.show();
+            state.ticketModalTitle = "Edit Ticket";
 
             ticketForm.id = res.data.ticketData.id;
             ticketForm.subject = res.data.ticketData.subject;
@@ -104,7 +104,7 @@
         <div class="card mt-5"  style="width: 100%;">
             <div class="card-body overflow-auto">
                 
-                <button type="button" class="btn btn-primary" style="float: right !important;" data-bs-toggle="modal" data-bs-target="#ModalTicket" @click="state.ticketModal = 'Add Ticket'"><i class="fas fa-plus"></i> Add Ticket</button>
+                <button type="button" class="btn btn-primary" style="float: right !important;" data-bs-toggle="modal" data-bs-target="#ModalTicket" @click="state.ticketModalTitle = 'Add Ticket'"><i class="fas fa-plus"></i> Add Ticket</button>
                 <br><br>
             
                 <table class="table table-sm table-bordered table-striped table-hover dt-responsive wrap" ref="tableTicket">
@@ -144,7 +144,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title"><i class="fa-brands fa-d-and-d"></i> {{ state.ticketModal }}</h4>
+                        <h4 class="modal-title"><i class="fa-brands fa-d-and-d"></i> {{ state.ticketModalTitle }}</h4>
                         <button type="button" class="btn-close" id="closebtn" data-item-process="create" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form method="post" @submit.prevent="saveTicket()" ref="formTicket" autocomplete="off">

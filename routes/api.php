@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TRTController;
 use App\Http\Controllers\TicketController;
 
 /*
@@ -27,4 +28,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('get_user_info', [UserController::class , 'getUserInfo'])->name('get_user_info');
     Route::get('read_user_info', [UserController::class , 'readUserInfo'])->name('read_user_info');
     Route::post('save_user_info', [UserController::class , 'saveUserInfo'])->name('save_user_info');
+
+
+    Route::get('get_trt', [TRTController::class , 'get_trt'])->name('get_trt');
+    Route::post('save_trt', [TRTController::class , 'save_trt'])->name('save_trt');
+    
 });
