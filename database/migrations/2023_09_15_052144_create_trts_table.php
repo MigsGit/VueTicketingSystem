@@ -13,16 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('{{ table }}', function (Blueprint $table) {
+        Schema::create('trts', function (Blueprint $table) {
             $table->id();
+            $table->string('code');
+            $table->smallInteger('duration_day')->nullable();
+            $table->smallInteger('duration_hour')->nullable();
+            $table->string('description');
+            $table->unsignedSmallInteger('created_by');
+            $table->unsignedSmallInteger('updated_by')->nullable();
             $table->softDeletes();
-<<<<<<< HEAD
-            $table->string('pining');
             $table->timestamps();
-
-=======
-            $table->timestamps();
->>>>>>> chris_v1
         });
     }
 
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('{{ table }}');
+        Schema::dropIfExists('trts');
     }
 };

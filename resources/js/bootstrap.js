@@ -1,6 +1,7 @@
 import "bootstrap";
 import _ from 'lodash';
 import { Modal } from 'bootstrap';
+import { useToast } from 'vue-toast-notification';
 
 window._ = _;
 
@@ -13,10 +14,11 @@ window._ = _;
 import axios from 'axios';
 
 window.axios = axios;
-
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+
 window.Modal = Modal;
+window.Toast = useToast;
 
 
 /**
