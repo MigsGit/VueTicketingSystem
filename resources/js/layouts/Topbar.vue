@@ -24,7 +24,7 @@ const logoutSession = async () => {
 <template>
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <span class="navbar-brand ps-3" >LaraVue </span>
+        <span class="navbar-brand ps-3" >Ticketing System </span>
         <!-- Sidebar Toggle-->
         <a id="sidebarToggle" style="cursor: pointer;"><i class="fas fa-bars"></i></a>
         <!-- Navbar Search-->

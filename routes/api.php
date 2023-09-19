@@ -28,4 +28,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('get_user_info', [UserController::class , 'getUserInfo'])->name('get_user_info');
     Route::get('read_user_info', [UserController::class , 'readUserInfo'])->name('read_user_info');
     Route::post('save_user_info', [UserController::class , 'saveUserInfo'])->name('save_user_info');
+
+    Route::post('closing_ticket', [TicketController::class , 'closingTicket'])->name('closing_ticket');
+    Route::get('read_resolution_by_user', [TicketController::class , 'readResolutionByUser'])->name('read_resolution_by_user');
+    Route::get('read_resolution_title_by_id', [TicketController::class , 'readResolutionTitleById'])->name('read_resolution_title_by_id');
 });

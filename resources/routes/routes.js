@@ -7,6 +7,7 @@ import UserMaster from '../js/views/admin/UserMaster.vue'
 
 // USER
 import Ticket from '../js/views/user/Ticket.vue';
+import AssignedTicket from '../js/views/iss/AssignedTicket.vue';
 
 console.log('routes');
 export default [
@@ -40,6 +41,11 @@ export default [
                 path: 'ticket',
                 name: 'ticket',
                 component: Ticket
+            },
+            {
+                path: 'assigned_ticket',
+                name: 'assigned_ticket',
+                component: AssignedTicket
             }
         ]
     }
