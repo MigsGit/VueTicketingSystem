@@ -12,8 +12,14 @@
     const modalTicket = ref();
     const tableTicket = ref();
     const columns = ref();
-    const ticketModal = ref();
-    const ticketForm = reactive({
+    // const ticketModalTitle = ref();
+    const state = reactive({
+        ticketModal: null,
+        ticketModalTitle: 'Add Ticket'
+    })
+    const formTicket = ref();
+
+    const initialTicketForm = reactive({
         id: "",
         subject: "",
         message: "",
@@ -32,6 +38,7 @@
     onMounted( async () => {
         // state.userModal = new Modal(modalUser.value, {});
         await getTicket();
+        state.ticketModal = new Modal(modalTicket.value, {});
         datatable();
         modalTicket.value.addEventListener('hidden.bs.modal', event => {
             // console.log('modalUser closed');
@@ -48,18 +55,29 @@
     }
 
     const saveTicket = async () => {
-        const formData = new FormData(ticketForm.value);
-
-        await api.post('api/save_ticket', formData).then((res) => {
-
+        const formData = new FormData(formTicket.value);
+        await axios.post('/api/save_ticket', formData).then((res) => {
+            console.log(res);
+            if(res.data.result == 1){
+                toastr.open({
+                    message: res.data.msg,
+                    type: 'success',
+                    position: 'top-right',
+                    duration: 2000,
+                }); // * usage of Toastr notification
+                getTicket();
+                state.ticketModal.hide();
+            }
         }).catch((err) => {
 
         });
     }
     const editTicket = async (ticketId) => {
         // console.log(ticketId);
-        await api.get('api/get_ticket_info', { params: { id: ticketId } }).then((res) => {
-
+        await axios.get('/api/get_ticket_info', { params: { id: ticketId } }).then((res) => {
+            console.log(res);
+            state.ticketModal.show();
+            state.ticketModalTitle = "Edit Ticket";
         }).catch((err) => {
 
         });
@@ -71,7 +89,7 @@
         <h1 class="mt-4">Ticket</h1>
         <div class="card mt-5"  style="width: 100%;">
             <div class="card-body overflow-auto">
-                <button type="button" class="btn btn-primary" style="float: right !important;" data-bs-toggle="modal" data-bs-target="#ModalTicket" @click="state.ticketModal = 'Add Ticket'"><i class="fas fa-plus"></i> Add Ticket</button>
+                <button type="button" class="btn btn-primary" style="float: right !important;" data-bs-toggle="modal" data-bs-target="#ModalTicket" @click="state.ticketModalTitle = 'Add Ticket'"><i class="fas fa-plus"></i> Add Ticket</button>
                 <br><br>
                 <table class="table table-sm table-bordered table-striped table-hover dt-responsive wrap" ref="tableTicket">
                     <thead>
@@ -106,7 +124,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title"><i class="fa-brands fa-d-and-d"></i> {{ ticketModal }}</h4>
+                        <h4 class="modal-title"><i class="fa-brands fa-d-and-d"></i> {{ state.ticketModalTitle }}</h4>
                         <button type="button" class="btn-close" id="closebtn" data-item-process="create" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form method="post" @submit.prevent="saveTicket()" ref="forms" autocomplete="off">
