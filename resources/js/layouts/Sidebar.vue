@@ -24,6 +24,9 @@ const useAuth = useAuthStore();
                     </router-link>
                     <router-link class="sb-nav-link-icon nav-link" :to="{ name: 'trt_maintenance' }">
                         <i class="fas fa-cog"></i>&nbsp; TRT Maitenance
+                <div class="sb-sidenav-menu-heading">ISS</div>
+                    <router-link class="sb-nav-link-icon nav-link" :to="{ name: 'assigned_ticket' }">
+                        <i class="fas fa-user"></i>&nbsp; Assigned Ticket
                     </router-link>
             </div>
         </div>

@@ -1,11 +1,13 @@
 <script setup>
     import DataTable from 'datatables.net-vue3';
     import DataTablesCore from 'datatables.net-bs5';
-    
+
     DataTable.use(DataTablesCore);
 
-    import { onMounted, ref, reactive, watch,nextTick } from "vue";
+    import { Modal } from "bootstrap";
+    import { onMounted, ref, reactive } from "vue";
     import $ from 'jquery';
+    import api from '../../axios';
 
     const modalTicket = ref();
     const tableTicket = ref();
@@ -21,41 +23,32 @@
         id: "",
         subject: "",
         message: "",
-    });
-    const ticketForm = reactive({ ...initialTicketForm });
+    })
 
-    import { useToast } from 'vue-toast-notification';
-    const toastr = useToast();
-
-    var dt = null;
-    dt = $(tableTicket.value).DataTable({});
+    const datatable = () => {
+        $(tableTicket.value).DataTable({
+            "processing"    : true,
+            "language": {
+                "info": "Showing _START_ to _END_ of _TOTAL_ tickets",
+                "lengthMenu": "Show _MENU_ tickets",
+            },
+        });
+    };
 
     onMounted( async () => {
+        // state.userModal = new Modal(modalUser.value, {});
         await getTicket();
         state.ticketModal = new Modal(modalTicket.value, {});
+        datatable();
         modalTicket.value.addEventListener('hidden.bs.modal', event => {
-            console.log('modalUser closed');
-            formTicket.value.reset();
-            Object.assign(ticketForm, initialTicketForm);
+            // console.log('modalUser closed');
         });
     })
-    /*
-        * WATCH will reload the DataTable after saving.
-        * This will serve as .draw()
-    */
-    watch(columns, async (columns) => {
-        console.log(columns);
-        dt.destroy();
-        nextTick(() => {
-            dt = $(tableTicket.value).DataTable()
-        }); 
-    });
 
     const getTicket = async () => {
-        await axios.get('/api/get_tickets').then((res) => {
+        await api.get('api/get_tickets').then((res) => {
             // console.log(res.data);
             columns.value = res.data;
-            
         }).catch((err)=>{
 
         });
@@ -63,7 +56,6 @@
 
     const saveTicket = async () => {
         const formData = new FormData(formTicket.value);
-        
         await axios.post('/api/save_ticket', formData).then((res) => {
             console.log(res);
             if(res.data.result == 1){
@@ -86,12 +78,6 @@
             console.log(res);
             state.ticketModal.show();
             state.ticketModalTitle = "Edit Ticket";
-
-            ticketForm.id = res.data.ticketData.id;
-            ticketForm.subject = res.data.ticketData.subject;
-            ticketForm.message = res.data.ticketData.message;
-
-            
         }).catch((err) => {
 
         });
@@ -103,18 +89,14 @@
         <h1 class="mt-4">Ticket</h1>
         <div class="card mt-5"  style="width: 100%;">
             <div class="card-body overflow-auto">
-                
                 <button type="button" class="btn btn-primary" style="float: right !important;" data-bs-toggle="modal" data-bs-target="#ModalTicket" @click="state.ticketModalTitle = 'Add Ticket'"><i class="fas fa-plus"></i> Add Ticket</button>
                 <br><br>
-            
                 <table class="table table-sm table-bordered table-striped table-hover dt-responsive wrap" ref="tableTicket">
                     <thead>
                         <tr>
                             <th>Action</th>
                             <th>Status</th>
                             <th>Ticket No.</th>
-                            <th>Subject</th>
-                            <th>Message</th>
                             <th>Assigned To</th>
                             <th>Resolution Time</th>
                         </tr>
@@ -129,8 +111,6 @@
                                 <span class="badge bg-info" v-else-if="row.status == 1">Assigned</span>
                             </td>
                             <td>{{ row.ticket_no }}</td>
-                            <td>{{ row.subject }}</td>
-                            <td>{{ row.message }}</td>
                             <td>{{ row.assign_to }}</td>
                             <td>{{ row.res_time }}</td>
                         </tr>
@@ -147,25 +127,25 @@
                         <h4 class="modal-title"><i class="fa-brands fa-d-and-d"></i> {{ state.ticketModalTitle }}</h4>
                         <button type="button" class="btn-close" id="closebtn" data-item-process="create" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form method="post" @submit.prevent="saveTicket()" ref="formTicket" autocomplete="off">
+                    <form method="post" @submit.prevent="saveTicket()" ref="forms" autocomplete="off">
                         <div class="modal-body" >
                             <input type="hidden" name="ticketId" v-model="ticketForm.id">
                             <!-- <div class="input-group input-group-sm mb-3">
                                 <div class="input-group-prepend w-50">
                                     <span class="input-group-text w-100" id="basic-addon1" style="background-color: #17a2b8; color: white;">Sub:</span>
                                 </div>
-                                
+
                                     <input type="text" class="form-control" name="packingCtrl" id="packingControlId" readonly>
                             </div> -->
                             <div class="form-group">
                                 <label><strong>Subject:</strong></label>
-                                <input type="text" class="form-control" name="ticket_subject" v-model="ticketForm.subject" required>
+                                <input type="text" class="form-control" name="ticket_subject" v-model="ticketForm.subject">
                             </div>
                             <br>
                             <div class="form-group">
                                 <label><strong>Message:</strong></label>
                                 <!-- <input type="text" class="form-control" name="ticket_subject" v-model="ticketForm.subject"> -->
-                                <textarea class="form-control" name="ticket_message" v-model="ticketForm.message" cols="30" rows="10" placeholder="Type Here..." required></textarea>
+                                <textarea class="form-control" name="ticket_message" v-model="ticketForm.message" cols="30" rows="10" placeholder="Type Here..."></textarea>
                             </div>
 
                         </div>
