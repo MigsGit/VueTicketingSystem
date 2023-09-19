@@ -13,16 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('{{ table }}', function (Blueprint $table) {
+        Schema::create('resolution_procedure_titles', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->string('procedure_title');
             $table->softDeletes();
-<<<<<<< HEAD
-            $table->string('pining');
             $table->timestamps();
 
-=======
-            $table->timestamps();
->>>>>>> chris_v1
+            $table->foreign('updated_by')->references('id')->on('users'); //foreign key for users
+
         });
     }
 
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('{{ table }}');
+        Schema::dropIfExists('resolution_procedure_titles');
     }
 };

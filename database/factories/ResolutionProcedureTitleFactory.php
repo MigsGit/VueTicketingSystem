@@ -1,13 +1,13 @@
 <?php
 
-namespace {{ factoryNamespace }};
+namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\{{ namespacedModel }}>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ResolutionProcedureTitle>
  */
-class {{ factory }}Factory extends Factory
+class ResolutionProcedureTitleFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,6 +18,8 @@ class {{ factory }}Factory extends Factory
     {
         return [
             //
+            'procedure_title' => fake()->name(),
+
         ];
     }
 }

@@ -13,15 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tickets', function (Blueprint $table) {
+        Schema::create('trts', function (Blueprint $table) {
             $table->id();
-            $table->string('ticket_no');
-            $table->string('max_unique_no');
-            $table->string('subject');
-            $table->string('message');
-            $table->string('status')->default(0)->comment = "0-unassigned, 1-assigned, 2-DNMR, 3-closed";
-            $table->unsignedSmallInteger('assigned_to')->nullable();
-            $table->unsignedSmallInteger('resolution_time')->nullable();
+            $table->string('code');
+            $table->smallInteger('duration_day')->nullable();
+            $table->smallInteger('duration_hour')->nullable();
+            $table->string('description');
             $table->unsignedSmallInteger('created_by');
             $table->unsignedSmallInteger('updated_by')->nullable();
             $table->softDeletes();
@@ -36,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tickets');
+        Schema::dropIfExists('trts');
     }
 };

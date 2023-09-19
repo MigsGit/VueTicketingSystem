@@ -13,8 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('{{ table }}', function (Blueprint $table) {
-            //
+        Schema::create('resolution_procedure_lists', function (Blueprint $table) {
+            $table->id();
+            $table->softDeletes();
+            $table->foreignId('resolution_procedure_title_id')->constrained(); //foreign key for title
+            $table->string('procedure_list');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('{{ table }}', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('resolution_procedure_lists');
     }
 };
