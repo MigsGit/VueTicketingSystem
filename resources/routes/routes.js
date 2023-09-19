@@ -48,8 +48,7 @@ export default [
                 name: 'trt_maintenance',
                 component: TrtMaintenance
             }
-              
-            },{
+            ,{
                 path: 'assigned_ticket',
                 name: 'assigned_ticket',
                 component: AssignedTicket

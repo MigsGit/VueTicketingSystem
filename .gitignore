@@ -1,7 +1,6 @@
 
 /.phpunit.cache
 /node_modules
-/stubs
 /public/build
 /public/hot
 /public/storage
@@ -17,12 +16,5 @@ npm-debug.log
 yarn-error.log
 /.fleet
 /.idea
-<<<<<<< HEAD
 /.vscode
-<<<<<<< HEAD
-/stubs
-=======
-=======
-/.vscode
->>>>>>> 99271fe0982aba5a5576aaabaf532533b9bfe704
->>>>>>> master
+/stub

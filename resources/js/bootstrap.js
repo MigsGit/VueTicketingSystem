@@ -3,11 +3,11 @@ import _ from 'lodash';
 import { Modal } from 'bootstrap';
 import { useToast } from 'vue-toast-notification';
 
-import { useToast } from 'vue-toast-notification';
-
-
 import axios from 'axios';
 import $ from "jquery";
+
+import Swal from 'sweetalert2';
+
 
 window._ = _;
 
@@ -25,6 +25,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 window.Modal = Modal;
 window.Toast = useToast;
+window.Swal = Swal;
+
 
 try {
     window.$ = $;
