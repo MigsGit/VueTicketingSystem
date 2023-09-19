@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+
+use App\Models\Ticket;
+use App\Models\ResolutionProcedureList;
+use App\Models\ResolutionProcedureTitle;
 
 class TicketController extends Controller
 {
@@ -22,7 +25,7 @@ class TicketController extends Controller
             DB::rollback();
             return $e;
         }
-       
+
     }
     public function save_ticket(Request $request){
         date_default_timezone_set('Asia/Manila');
@@ -44,7 +47,7 @@ class TicketController extends Controller
     public function get_ticket_info(Request $request){
         DB::beginTransaction();
         try{
-            $ticket_data = Ticket::where('id', $request->id)->get();
+            $ticket_data = Ticket::where('id', $request->id)->first();
             DB::commit();
 
             return response()->json(['ticketData' => $ticket_data]);
@@ -52,5 +55,49 @@ class TicketController extends Controller
             DB::rollback();
             return $e;
         }
+    }
+
+    public function closingTicket(Request $request){
+        
+        // return ResolutionProcedureList::limit(5)->get();
+        // DB::beginTransaction();
+        // try{
+        //     $ticket_data = Ticket::where('id', $request->id)->first();
+        //     DB::commit();
+
+        //     return response()->json(['ticketData' => $ticket_data]);
+        // }catch(Exception $e){
+        //     DB::rollback();
+        //     return $e;
+        // }
+    }
+    public function readResolutionByUser(Request $request){
+        
+        return ResolutionProcedureTitle::limit(5)->get();
+        // DB::beginTransaction();
+        // try{
+        //     $ticket_data = Ticket::where('id', $request->id)->first();
+        //     DB::commit();
+
+        //     return response()->json(['ticketData' => $ticket_data]);
+        // }catch(Exception $e){
+        //     DB::rollback();
+        //     return $e;
+        // }
+    }
+    public function readResolutionTitleById(Request $request){
+        // return $request->selected_resolution_title_id;
+        return ResolutionProcedureTitle::with('ResolutionProcedureLists')
+                                        ->where('id',$request->selected_resolution_title_id)->limit(5)->get();
+        // DB::beginTransaction();
+        // try{
+        //     $ticket_data = Ticket::where('id', $request->id)->first();
+        //     DB::commit();
+
+        //     return response()->json(['ticketData' => $ticket_data]);
+        // }catch(Exception $e){
+        //     DB::rollback();
+        //     return $e;
+        // }
     }
 }

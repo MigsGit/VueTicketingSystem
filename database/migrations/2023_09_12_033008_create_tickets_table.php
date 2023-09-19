@@ -23,7 +23,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('assigned_to')->nullable();
             $table->unsignedSmallInteger('resolution_time')->nullable();
             $table->unsignedSmallInteger('created_by');
-            $table->unsignedSmallInteger('updated_by');
+            $table->unsignedSmallInteger('updated_by')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

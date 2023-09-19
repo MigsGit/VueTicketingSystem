@@ -16,7 +16,7 @@
                         </button>
                     </div>
                 </div>
-                <table class="table">
+                <table class="table" ref="tableUserInfo">
                     <thead>
                         <tr>
                             <th style="width: 10%;">
@@ -80,24 +80,26 @@
 </template>
 
 <script setup>
-    import {onMounted, ref, reactive, inject} from 'vue'
+    import {onMounted, ref, reactive, inject , watch, nextTick} from 'vue'
     import DataTable from 'datatables.net-vue3'
     import DataTablesCore from 'datatables.net-bs5'
-
+    import Swal from 'sweetalert2'
     DataTable.use(DataTablesCore)
-    let objModalUserInfo;
+
+    var fnDtUserInfo = ''
+    let objModalUserInfo
 
     const getUserInfo = ref("")
     const modalUserInfo = ref("")
     const frmUserInfo = ref({})
     const formUser = ref("");
-
     const full_name = ref('')
     const email = ref('')
+    const tableUserInfo = ref('')
 
     // const swal = inject('$swal')
     async function fnFetchUserInfo(){
-        let response = await axios.get('api/get_user_info');
+        let response = await axios.get('/api/get_user_info');
         getUserInfo.value = response.data.data;
     }
     async function fnClckUserInfo(event){
@@ -107,7 +109,7 @@
         if(dataId == null){
             console.log('dataId');
         }else{
-            let response = await axios.get('api/read_user_info',{
+            let response = await axios.get('/api/read_user_info',{
             params:{data_id : dataId}
             });
             let data = response.data;
@@ -120,17 +122,19 @@
                 console.log(response.status)
             }
         }
-        /**
-         * name
-         * email
-         * id
-         */
     }
     async function fnSaveUserInfo(){
         try {
-            let response = await axios.post('api/save_user_info',frmUserInfo.value)
+            let response = await axios.post('/api/save_user_info',frmUserInfo.value)
             // console.log(response)
             objModalUserInfo.hide();
+            Swal.fire({
+                    icon: "success",
+                    title: "Saved Successfully",
+                    showConfirmButton: false,
+                    timer: 1500,
+            });
+            fnFetchUserInfo()
         }
         catch (err) {
             let errorStatus = err.response.status
@@ -156,17 +160,35 @@
             }
         }
     }
+
+    fnDtUserInfo =    $(tableUserInfo.value).DataTable({
+        "processing"    : true,
+        "language": {
+            "info": "Showing _START_ to _END_ of _TOTAL_ tickets",
+            "lengthMenu": "Show _MENU_ tickets",
+        },
+    })
     onMounted(() => {
         fnFetchUserInfo()
         objModalUserInfo = new Modal(modalUserInfo.value)
         modalUserInfo.value.addEventListener('hidden.bs.modal',function (){
-            formUser.value.reset();
+            formUser.value.reset()
         })
-        // console.log(objModalUserInfo)
+    })
+    watch(getUserInfo, async (getUserInfo) => {
+        fnDtUserInfo.destroy();
+        nextTick(() => {
+            fnDtUserInfo =    $(tableUserInfo.value).DataTable({
+                "processing"    : true,
+                "language": {
+                    "info": "Showing _START_ to _END_ of _TOTAL_ tickets",
+                    "lengthMenu": "Show _MENU_ tickets",
+                },
+            })
+        });
     })
 </script>
 <style lang="scss" scoped>
-@import "bootstrap";
 @import "datatables.net-bs5";
 </style>
 

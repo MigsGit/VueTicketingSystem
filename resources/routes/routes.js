@@ -8,6 +8,7 @@ import TrtMaintenance from '../js/views/admin/TrtMaintenance.vue'
 
 // USER
 import Ticket from '../js/views/user/Ticket.vue';
+import AssignedTicket from '../js/views/iss/AssignedTicket.vue';
 
 console.log('routes');
 export default [
@@ -47,6 +48,12 @@ export default [
                 name: 'trt_maintenance',
                 component: TrtMaintenance
             }
+              
+            },{
+                path: 'assigned_ticket',
+                name: 'assigned_ticket',
+                component: AssignedTicket
+            },
         ]
     }
 ];
