@@ -57,7 +57,7 @@ class TicketController extends Controller
     }
 
     public function closingTicket(Request $request){
-        
+
         // return ResolutionProcedureList::limit(5)->get();
         // DB::beginTransaction();
         // try{
@@ -70,33 +70,41 @@ class TicketController extends Controller
         //     return $e;
         // }
     }
-    public function readResolutionByUser(Request $request){
-        
-        return ResolutionProcedureTitle::limit(5)->get();
-        // DB::beginTransaction();
-        // try{
-        //     $ticket_data = Ticket::where('id', $request->id)->first();
-        //     DB::commit();
 
-        //     return response()->json(['ticketData' => $ticket_data]);
-        // }catch(Exception $e){
-        //     DB::rollback();
-        //     return $e;
-        // }
+    public function readResolutionByUser(Request $request){
+
+        return ResolutionProcedureTitle::all();
     }
+
     public function readResolutionTitleById(Request $request){
         // return $request->selected_resolution_title_id;
         return ResolutionProcedureTitle::with('ResolutionProcedureLists')
-                                        ->where('id',$request->selected_resolution_title_id)->limit(5)->get();
-        // DB::beginTransaction();
-        // try{
-        //     $ticket_data = Ticket::where('id', $request->id)->first();
-        //     DB::commit();
+                                        ->where('id',$request->selected_resolution_title_id)->get();
+    }
 
-        //     return response()->json(['ticketData' => $ticket_data]);
-        // }catch(Exception $e){
-        //     DB::rollback();
-        //     return $e;
-        // }
+    public function createNewResolution(Request $request){
+
+        try {
+            $value = $request->all();
+            $value_resolution_list = $value['inputCount']['key_num'];
+            $resolution_procedure_title_id = ResolutionProcedureTitle::insertGetId([
+                    'updated_by' => 1,
+                    'procedure_title' => $request->procedure_title
+            ]);
+            foreach($value_resolution_list as $value_resolution_list_key_num){
+                foreach($value_resolution_list_key_num as $arr_value_resolution_list){
+                    ResolutionProcedureList::insert([
+                        'resolution_procedure_title_id' => $resolution_procedure_title_id,
+                        'procedure_list'=>$arr_value_resolution_list
+                    ]);
+                }
+            }
+            $resolution_procedure_lists = ResolutionProcedureTitle::with('ResolutionProcedureLists')
+                                        ->where('id',$resolution_procedure_title_id)
+                                        ->limit(5)->get();
+            return (['resolution_procedure_title_id' => $resolution_procedure_title_id,'resolution_procedure_lists' => $resolution_procedure_lists]);
+        }catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }
