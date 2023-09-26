@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ticket;
 use Illuminate\Http\Request;
+use App\Models\TicketCloseDetail;
+
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-
-use App\Models\Ticket;
+use Illuminate\Support\Facades\Auth;
 use App\Models\ResolutionProcedureList;
 use App\Models\ResolutionProcedureTitle;
 
@@ -57,33 +59,40 @@ class TicketController extends Controller
     }
 
     public function closingTicket(Request $request){
-
-        // return ResolutionProcedureList::limit(5)->get();
-        // DB::beginTransaction();
-        // try{
-        //     $ticket_data = Ticket::where('id', $request->id)->first();
-        //     DB::commit();
-
-        //     return response()->json(['ticketData' => $ticket_data]);
-        // }catch(Exception $e){
-        //     DB::rollback();
-        //     return $e;
-        // }
+        // return $request->ticket_id;
+        try {
+            TicketCloseDetail::insert([
+                'ticket_id'=> $request->ticket_id,
+                'resolution_procedure_title_id'=>$request->resolution_procedure_title_id,
+                'initial_assessement_summary'=>$request->initial_assessement_summary,
+                'root_cause'=>$request->root_cause,
+                'date_time_closed'=>$request->date_time_closed,
+                'date_time_resolved'=>$request->date_time_resolved,
+                'reference_link'=>$request->reference_link,
+                'is_close'=>$request->is_close,
+                'conformance_mode'=>$request->conformance_mode,
+                'root_cause'=>$request->root_cause,
+            ]);
+            Ticket::where('id',$request->ticket_id)->update(['status' => 3]);
+            return 'success';
+            //change the status in ticket table into 3
+            //Request validation
+            //email to the user if closed ticket
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     public function readResolutionByUser(Request $request){
-
         return ResolutionProcedureTitle::all();
     }
 
     public function readResolutionTitleById(Request $request){
-        // return $request->selected_resolution_title_id;
         return ResolutionProcedureTitle::with('ResolutionProcedureLists')
                                         ->where('id',$request->selected_resolution_title_id)->get();
     }
 
     public function createNewResolution(Request $request){
-
         try {
             $value = $request->all();
             $value_resolution_list = $value['inputCount']['key_num'];
@@ -106,5 +115,9 @@ class TicketController extends Controller
         }catch (\Throwable $th) {
             throw $th;
         }
+    }
+
+    public function getAssignedTickets(){
+        return Ticket::where('assigned_to',Auth::user()->id)->get();
     }
 }

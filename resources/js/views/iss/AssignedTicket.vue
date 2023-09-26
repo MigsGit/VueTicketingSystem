@@ -4,7 +4,7 @@
         <div class="card mt-5"  style="width: 100%;">
             <div class="card-body overflow-auto">
                 <br><br>
-                <table class="table table-sm table-bordered table-striped table-hover dt-responsive wrap" ref="tableTicket">
+                <table class="table table-sm table-bordered table-striped table-hover dt-responsive wrap" ref="tableAssingedTicket">
                     <thead>
                         <tr>
                             <th>Action</th>
@@ -19,11 +19,12 @@
                         <tr v-for="row in ticketDetails" :key="row.id">
                             <td class="text-center">
                                 <!-- <button type="button" class="btn btn-info btn-sm" :disabled="row.status != 0" @click="editTicket(row.id)"><i class="fas fa-edit"></i></button> -->
-                                <button type="button" class="btn btn-info btn-sm" :disabled="row.status != 0" @click="closingTicket(row.id)"><i class="fas fa-edit"></i></button>
+                                <button type="button" class="btn btn-info btn-sm" :disabled="row.status != 0" @click="fnClickClosingTicket(row.id)"><i class="fas fa-edit"></i></button>
                             </td>
                             <td class="text-center">
                                 <span class="badge bg-warning" v-if="row.status == 0">Pending</span>
                                 <span class="badge bg-info" v-else-if="row.status == 1">Assigned</span>
+                                <span class="badge bg-success" v-else-if="row.status == 3">Closed</span>
                             </td>
                             <td>{{ row.ticket_no }}</td>
                             <td>{{ row.assign_to }}</td>
@@ -34,58 +35,6 @@
             </div>
         </div>
     </div>
-    <!-- Modal -->
-    <!--
-Close (Permanent)
-Close (Work around)
-Does not meet the requirements
-
-
-A. DATE AND TIME RESOLVED:
-
->02-14-23 9:47am
-
---
-B. INITIAL ASSESSMENT SUMMARY:
-
-> Access to Special Acceptance Module for the specified users
---
-C. ROOT CAUSE:
-
->No access to Special Acceptance Module
-
---
-
-D. MATERIALS AND EQUIPMENT USED:
-
->N/A
-
---
-F. RESOLUTION PROCEDURES:
-
-1.Login to Rapid
-2.Add access to Special Acceptance Module
-3.Check the user's accounts if the new module is successfully created
-4.
-5.
-
---
-G. REFERENCE LINKS USED:
-
->N/A
-
---
-
-H. Confirmed Closure by Requestor (Y/N) - if yes, indicate conformance mode (verbal or email), date, and time of conformance
-
->N, Email
-
-Setting for API ->
-Close (Permanent)
-Close (Work around)
-Does not meet the requirements
-     -->
-
 
     <div class="modal fade" ref="modalClosingTicket" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -94,18 +43,16 @@ Does not meet the requirements
                     <h5 class="modal-title" id="staticBackdropLabel">Closing Ticket</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="post"  @submit.prevent="fnClosingTicket()" ref="formClosingTicket">
+                <form method="post"  @submit.prevent="fnSaveClosingTicket()" ref="formClosingTicket">
                     <div class="modal-body">
-                        <input type="text" name="" id="" class="form-control mb-3">
-                        <!-- <div class="input-group flex-nowrap mb-3"> -->
-                        <!-- </div> -->
+                        <input type="text" v-model="frmClosingTicket.ticket_id"  class="form-control mb-3">
                         <div class="input-group flex-nowrap mb-3">
                             <span class="input-group-text w-25 text-wrap" id="addon-wrapping">Initial Assessment Summary</span>
-                            <textarea v-model="frmClosingTicket.initial_assessement_summary" type="text" class="form-control" rows="3"></textarea>
+                            <textarea v-model="frmClosingTicket.initial_assessement_summary" type="text" class="form-control" rows="2"></textarea>
                         </div>
                         <div class="input-group flex-nowrap mb-3">
                             <span class="input-group-text w-25" id="addon-wrapping" style="text-align: center;">Root Cause</span>
-                            <textarea v-model="frmClosingTicket.root_cause" type="text" class="form-control" rows="3"></textarea>
+                            <textarea v-model="frmClosingTicket.root_cause" type="text" class="form-control" rows="2"></textarea>
                         </div>
 
                         <fieldset class="border rounded-3 p-3 mb-3">
@@ -138,7 +85,7 @@ Does not meet the requirements
                                             </button>
                                     </div>
                                 </div>
-                            <input class="form-control" v-model="frmClosingTicket.procedureTitleId" type="text" />
+                            <input class="form-control" v-model="frmClosingTicket.resolution_procedure_title_id" type="text" />
                             <table class="table table-stripped">
                                 <thead>
                                     <tr>
@@ -227,9 +174,12 @@ Does not meet the requirements
 </template>
 
 <script setup>
-import {ref, reactive, onMounted} from 'vue'
+import {ref, reactive, onMounted, watch, nextTick} from 'vue'
 import Swal from 'sweetalert2'
 
+/* 
+    Global Inputs
+*/
     let objModalClosingTiket = ''
     let objModalNewResolution = ''
 
@@ -244,12 +194,36 @@ import Swal from 'sweetalert2'
     const selectedResolutionTitleId = ref(null)
     const resolutionProcedureDetails = ref(null)
 
-    // const frmNewResolution = ref([])
+    const tableAssingedTicket = ref(null)
 
-
+/* 
+    Multiple Inputs 
+*/
     const inputCount = reactive({key_num: [] })
     const procedureTitle = ref(null)
+/* 
+    DataTable
+*/
+    var dtAssingedTicket = null;
+    dtAssingedTicket = $(tableAssingedTicket.value).DataTable({
 
+    });
+/*
+    * WATCH will reload the DataTable after saving.
+    * This will serve as .draw()
+*/
+    onMounted(() => {
+        getTicket()
+        objModalClosingTiket = new Modal(modalClosingTicket.value)
+        objModalNewResolution = new Modal(modalNewResolution.value)
+    })
+    watch(ticketDetails, async (ticketDetails) => {
+        console.log(ticketDetails);
+        dtAssingedTicket.destroy();
+        nextTick(() => {
+            dtAssingedTicket = $(tableAssingedTicket.value).DataTable()
+        });
+    })
     async function fnAddRowResolution(){
         inputCount.key_num.push({ valueNewResolution: []})
         console.log(inputCount.key_num);
@@ -265,15 +239,16 @@ import Swal from 'sweetalert2'
     }
     async function getTicket(){
         try{
-            let respose = await axios.get('/api/get_tickets')
+            let respose = await axios.get('/api/get_assigned_tickets')
             ticketDetails.value = respose.data
         }catch(err){
             alert(err)
         }
     }
 
-    async function closingTicket(dataId){
+    async function fnClickClosingTicket(ticketId){
         try{
+            frmClosingTicket.value.ticket_id = ticketId;
             objModalClosingTiket.show()
             fnReadResolutionProcedureByUser()
         }catch(err){
@@ -285,9 +260,20 @@ import Swal from 'sweetalert2'
         objModalNewResolution.show();
     }
 
-    async function fnClosingTicket(){
-        let response = axios.post('/api/closing_ticket',frmClosingTicket.value)
-        console.log(response)
+    async function fnSaveClosingTicket(){
+        try {
+            let response = axios.post('/api/closing_ticket',frmClosingTicket.value)
+            objModalClosingTiket.hide()
+            Swal.fire({
+                    icon: "success",
+                    title: "Closed Successfully",
+                    showConfirmButton: false,
+                    timer: 1500,
+            });
+            getTicket()
+        } catch (error) {
+            alert('fnSaveClosingTicket')
+        }
     }
     async function fnReadResolutionProcedureById(){
         let response = await axios.get('/api/read_resolution_title_by_id',{
@@ -295,7 +281,7 @@ import Swal from 'sweetalert2'
         });
         let data = response['data'][0]
         resolutionProcedureDetails.value = data.resolution_procedure_lists
-        frmClosingTicket.value.procedureTitleId = data.id
+        frmClosingTicket.value.resolution_procedure_title_id = data.id
     }
 
     async function fnReadResolutionProcedureByUser(){
@@ -310,7 +296,7 @@ import Swal from 'sweetalert2'
             objModalNewResolution.hide()
             let data = respose['data']
 
-            frmClosingTicket.value.procedureTitleId = data['resolution_procedure_title_id']
+            frmClosingTicket.value.resolution_procedure_title_id = data['resolution_procedure_title_id']
             resolutionProcedureDetails.value = data['resolution_procedure_lists'][0]['resolution_procedure_lists']
             fnReadResolutionProcedureByUser()
         } catch (error) {
@@ -318,11 +304,7 @@ import Swal from 'sweetalert2'
         }
     }
 
-    onMounted(() => {
-        getTicket()
-        objModalClosingTiket = new Modal(modalClosingTicket.value);
-        objModalNewResolution = new Modal(modalNewResolution.value);
-    })
+
 </script>
 
 <style lang="scss" scoped>

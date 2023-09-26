@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->softDeletes();
             $table->foreignId('resolution_procedure_title_id')->constrained(); //foreign key for title
-            $table->string('procedure_list');
+            $table->string('procedure_list')->nullable();
             $table->timestamps();
         });
     }

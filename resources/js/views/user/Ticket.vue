@@ -127,6 +127,7 @@
                             <td class="text-center">
                                 <span class="badge bg-warning" v-if="row.status == 0">Pending</span>
                                 <span class="badge bg-info" v-else-if="row.status == 1">Assigned</span>
+                                <span class="badge bg-success" v-else-if="row.status == 3">Closed</span>
                             </td>
                             <td>{{ row.ticket_no }}</td>
                             <td>{{ row.subject }}</td>

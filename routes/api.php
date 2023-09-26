@@ -39,4 +39,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('read_resolution_title_by_id', [TicketController::class , 'readResolutionTitleById'])->name('read_resolution_title_by_id');
     
     Route::post('create_new_resolution', [TicketController::class , 'createNewResolution'])->name('create_new_resolution');
+    Route::get('get_assigned_tickets', [TicketController::class , 'getAssignedTickets'])->name('get_assigned_tickets');
 });
