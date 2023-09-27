@@ -18,7 +18,7 @@ class CheckHasSession
     {
         if(!$request->session()->exists('id')){
             // session()->get()
-            return redirect('/unathorized');
+            return redirect('/unauthorized');
         }
         return $next($request);
     }

@@ -33,6 +33,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('get_trt', [TRTController::class , 'get_trt'])->name('get_trt');
     Route::post('save_trt', [TRTController::class , 'save_trt'])->name('save_trt');
+    Route::get('get_trt_for_edit', [TRTController::class , 'get_trt_for_edit'])->name('get_trt_for_edit');
+    Route::post('deact_trt', [TRTController::class , 'deact_trt'])->name('deact_trt');
+    
     
     Route::post('closing_ticket', [TicketController::class , 'closingTicket'])->name('closing_ticket');
     Route::get('read_resolution_by_user', [TicketController::class , 'readResolutionByUser'])->name('read_resolution_by_user');

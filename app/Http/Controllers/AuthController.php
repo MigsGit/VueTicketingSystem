@@ -12,18 +12,17 @@ class AuthController extends Controller
 {
     //
     public function login(LoginRequest $request){
-        // return $request->all();
+        // return 'qwe';
         $fields = $request->validated();
 
-        $user_info = User::where('email', $request->email)->get();
+        $user_info = User::where('email', $request->email)->first();
 
-        // return $user_info;
-        if($user_info[0]['deleted_at'] != null){
-            return response()->json([
-                'msg' => "User account is deactivated <br> Please call administrator."
-            ], 402);
-        }
         if(isset($user_info)){
+            if($user_info['deleted_at'] != null){
+                return response()->json([
+                    'msg' => "User account is deactivated <br> Please call administrator."
+                ], 402);
+            }
             if(!Auth::attempt([
                 'email' => $request->email,
                 'password' => $request->password

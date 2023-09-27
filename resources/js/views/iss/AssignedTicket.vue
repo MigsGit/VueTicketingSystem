@@ -177,13 +177,13 @@
                             <span class="input-group-text" id="addon-wrapping">Reference Link Used</span>
                             <input v-model="frmClosingTicket.reference_link" name="reference_link" type="text" class="form-control" aria-describedby="addon-wrapping">
                         </div>
-                        <div class="input-group flex-nowrap mb-3">
+                        <div class="input-group flex-nowrap mb-3 overflow-auto">
                             <span class="input-group-text" id="addon-wrapping">Datetime Resolved</span>
                             <input v-model="frmClosingTicket.date_time_resolved" type="datetime-local" class="form-control" aria-describedby="addon-wrapping">
                             <span class="input-group-text" id="addon-wrapping">Datetime Conformance</span>
                             <input v-model="frmClosingTicket.date_time_closed" type="datetime-local" class="form-control" aria-describedby="addon-wrapping">
                         </div>
-                        <label class="input-group-text mb-3" for="inputGroupSelect01">Confirmed closure by the requestor? if yes, indicate date, and time of conformance </label>
+                        <label class="input-group-text mb-3 overflow-auto" for="inputGroupSelect01">Confirmed closure by the requestor? if yes, indicate date, and time of conformance </label>
                         <div class="input-group mb-3">
                             <select v-model="frmClosingTicket.is_close" class="form-select" id="inputGroupSelect01">
                                 <option disabled selected>Choose...</option>

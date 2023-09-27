@@ -15,7 +15,6 @@ console.log('routes');
 export default [
     {
         path: '/',
-        // redirect: { name: 'login' },
         component: Login,
         children: [
             {
@@ -52,8 +51,8 @@ export default [
                 path: 'TRT_Maintenance',
                 name: 'trt_maintenance',
                 component: TrtMaintenance
-
-            },{
+            }
+            ,{
                 path: 'assigned_ticket',
                 name: 'assigned_ticket',
                 component: AssignedTicket

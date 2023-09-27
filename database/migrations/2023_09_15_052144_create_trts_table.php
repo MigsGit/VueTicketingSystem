@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('trts', function (Blueprint $table) {
             $table->id();
             $table->string('code');
-            $table->smallInteger('duration_day')->nullable();
-            $table->smallInteger('duration_hour')->nullable();
+            $table->smallInteger('duration_day')->default(0);
+            $table->smallInteger('duration_hour')->default(0);
             $table->string('description');
             $table->unsignedSmallInteger('created_by');
             $table->unsignedSmallInteger('updated_by')->nullable();
