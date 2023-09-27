@@ -9,6 +9,7 @@ use App\Models\TicketCloseDetail;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Models\ResolutionProcedureList;
 use App\Models\ResolutionProcedureTitle;
 
@@ -21,6 +22,7 @@ class TicketController extends Controller
             ->get();
             DB::commit();
             return $ticket_list;
+
         }
         catch(Exception $e){
             DB::rollback();
@@ -74,10 +76,14 @@ class TicketController extends Controller
                 'root_cause'=>$request->root_cause,
             ]);
             Ticket::where('id',$request->ticket_id)->update(['status' => 3]);
-            return 'success';
-            //change the status in ticket table into 3
             //Request validation
             //email to the user if closed ticket
+            $get_data = '';
+            $message = '';
+            $pkid = 1;
+            return Mail::send('mail.iqc_send_email', $get_data, function($message) use($pkid){
+                $message->to('mclegaspi@pricon.ph')->cc('')->subject('TEST EMAIL FOR NEW SYSTEM');
+            });
         } catch (\Throwable $th) {
             //throw $th;
         }
@@ -119,5 +125,10 @@ class TicketController extends Controller
 
     public function getAssignedTickets(){
         return Ticket::where('assigned_to',Auth::user()->id)->get();
+        
+    }
+
+    public function sendEmail(){
+        return 'success';
     }
 }

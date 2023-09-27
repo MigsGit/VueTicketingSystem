@@ -28,13 +28,6 @@ export default [
     {
         path: '/unauthorized',
         component: Unauthorized,
-        children: [
-            {
-                path: '/unauthorized',
-                name: 'unauthorized',
-                component: Unauthorized,
-            },
-        ]
     },
     {
         path: '/panel_template/',
@@ -69,16 +62,4 @@ export default [
 
         ]
     },
-    // {
-    //     path: '/unauthorized',
-    //     // redirect: { name: 'login' },
-    //     component: Login,
-    //     children: [
-    //         {
-    //             path: '/unauthorized/',
-    //             name: 'unauthorized',
-    //             component: Login,
-    //         },
-    //     ]
-    // },
 ];
