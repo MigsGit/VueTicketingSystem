@@ -1,37 +1,111 @@
 <template>
+<!-- <ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Home</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">qwerty</div>
+  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">asdfg</div>
+  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">zxcvb</div>
+</div> -->
     <div class="container-fluid px-4">
         <h1 class="mt-4">Assigned Ticket</h1>
         <div class="card mt-5"  style="width: 100%;">
-            <div class="card-body overflow-auto">
-                <br><br>
-                <table class="table table-sm table-bordered table-striped table-hover dt-responsive wrap" ref="tableAssingedTicket">
-                    <thead>
-                        <tr>
-                            <th>Action</th>
-                            <th>Status</th>
-                            <th>Ticket No.</th>
-                            <th>Assigned To</th>
-                            <th>Resolution Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- <pre>{{ticketDetails}}</pre> -->
-                        <tr v-for="row in ticketDetails" :key="row.id">
-                            <td class="text-center">
-                                <!-- <button type="button" class="btn btn-info btn-sm" :disabled="row.status != 0" @click="editTicket(row.id)"><i class="fas fa-edit"></i></button> -->
-                                <button type="button" class="btn btn-info btn-sm" :disabled="row.status != 0" @click="fnClickClosingTicket(row.id)"><i class="fas fa-edit"></i></button>
-                            </td>
-                            <td class="text-center">
-                                <span class="badge bg-warning" v-if="row.status == 0">Pending</span>
-                                <span class="badge bg-info" v-else-if="row.status == 1">Assigned</span>
-                                <span class="badge bg-success" v-else-if="row.status == 3">Closed</span>
-                            </td>
-                            <td>{{ row.ticket_no }}</td>
-                            <td>{{ row.assign_to }}</td>
-                            <td>{{ row.resolution_timeime }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+            </div> -->
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab" aria-controls="home" aria-selected="true">Pending</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#closed" type="button" role="tab" aria-controls="profile" aria-selected="false">Closed</button>
+                    </li>
+                </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+                    <div class="card-body overflow-auto">
+                        <br><br>
+                        <table class="table table-sm table-bordered table-striped table-hover dt-responsive wrap" ref="tableAssingedTicket">
+                            <thead>
+                                <tr>
+                                    <th>Action</th>
+                                    <th>Status</th>
+                                    <th>Ticket No.</th>
+                                    <th>Subject</th>
+                                    <th>Message</th>
+                                    <th>Assigned To</th>
+                                    <th>Resolution Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- <pre>{{ticketDetails}}</pre> -->
+                                <tr v-for="row in ticketDetails" :key="row.id">
+                                    <td class="text-center">
+                                        <!-- <button type="button" class="btn btn-info btn-sm" :disabled="row.status != 0" @click="editTicket(row.id)"><i class="fas fa-edit"></i></button> -->
+                                        <button type="button" class="btn btn-info btn-sm" :disabled="row.status != 0" @click="fnClickClosingTicket(row.id)"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-warning" v-if="row.status == 0">Pending</span>
+                                        <span class="badge bg-info" v-else-if="row.status == 1">Assigned</span>
+                                        <span class="badge bg-success" v-else-if="row.status == 3">Closed</span>
+                                    </td>
+                                    <td>{{ row.ticket_no }}</td>
+                                    <td>{{ row.subject}}</td>
+                                    <td>{{ row.message }}</td>
+                                    <td>{{ row.assign_to }}</td>
+                                    <td>{{ row.resolution_timeime }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="closed" role="tabpanel" aria-labelledby="closed-tab">
+                    <div class="card-body overflow-auto">
+                        <br><br>
+                        <table class="table table-sm table-bordered table-striped table-hover dt-responsive wrap" ref="tableAssingedTicketClosed">
+                            <thead>
+                                <tr>
+                                    <th>Actionssssssssss</th>
+                                    <th>Status</th>
+                                    <th>Ticket No.</th>
+                                    <th>Subject</th>
+                                    <th>Message</th>
+                                    <th>Assigned To</th>
+                                    <th>Resolution Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- <pre>{{ticketDetails}}</pre> -->
+                                <tr v-for="row in ticketDetails" :key="row.id">
+                                    <td class="text-center">
+                                        <!-- <button type="button" class="btn btn-info btn-sm" :disabled="row.status != 0" @click="editTicket(row.id)"><i class="fas fa-edit"></i></button> -->
+                                        <button type="button" class="btn btn-info btn-sm" :disabled="row.status != 0" @click="fnClickClosingTicket(row.id)"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-warning" v-if="row.status == 0">Pending</span>
+                                        <span class="badge bg-info" v-else-if="row.status == 1">Assigned</span>
+                                        <span class="badge bg-success" v-else-if="row.status == 3">Closed</span>
+                                    </td>
+                                    <td>{{ row.ticket_no }}</td>
+                                    <td>{{ row.subject}}</td>
+                                    <td>{{ row.message }}</td>
+                                    <td>{{ row.assign_to }}</td>
+                                    <td>{{ row.resolution_timeime }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -176,13 +250,14 @@
 <script setup>
 import {ref, reactive, onMounted, watch, nextTick} from 'vue'
 import Swal from 'sweetalert2'
-
-/* 
+/*
     Global Inputs
 */
     let objModalClosingTiket = ''
     let objModalNewResolution = ''
-
+/*
+    Ref
+*/
     const modalClosingTicket = ref(null)
     const modalNewResolution = ref(null)
 
@@ -196,12 +271,12 @@ import Swal from 'sweetalert2'
 
     const tableAssingedTicket = ref(null)
 
-/* 
-    Multiple Inputs 
+/*
+    Multiple Inputs
 */
     const inputCount = reactive({key_num: [] })
     const procedureTitle = ref(null)
-/* 
+/*
     DataTable
 */
     var dtAssingedTicket = null;
@@ -228,12 +303,10 @@ import Swal from 'sweetalert2'
         inputCount.key_num.push({ valueNewResolution: []})
         console.log(inputCount.key_num);
     }
-
     async function fnRemoveRowResolution(index){
         inputCount.key_num.splice(index,1);
         console.log(inputCount);
     }
-
     async function selectedResolutionTitle(event){
         selectedResolutionTitleId.value = event.target.value;
     }
@@ -242,10 +315,14 @@ import Swal from 'sweetalert2'
             let respose = await axios.get('/api/get_assigned_tickets')
             ticketDetails.value = respose.data
         }catch(err){
-            alert(err)
+            // alert(err)
+            // console.log(err);
+            // console.log(err['response']['status'])
+            if(err['response']['status']){
+                // 401
+            }
         }
     }
-
     async function fnClickClosingTicket(ticketId){
         try{
             frmClosingTicket.value.ticket_id = ticketId;
@@ -255,11 +332,9 @@ import Swal from 'sweetalert2'
             alert(err)
         }
     }
-
     async function fnNewResolution(){
         objModalNewResolution.show();
     }
-
     async function fnSaveClosingTicket(){
         try {
             let response = axios.post('/api/closing_ticket',frmClosingTicket.value)
@@ -283,13 +358,10 @@ import Swal from 'sweetalert2'
         resolutionProcedureDetails.value = data.resolution_procedure_lists
         frmClosingTicket.value.resolution_procedure_title_id = data.id
     }
-
     async function fnReadResolutionProcedureByUser(){
         let response = await axios.get('/api/read_resolution_by_user')
         optResolutionTitle.value = response['data']
-        // console.log('optResolutionTitle',optResolutionTitle.value)
     }
-
     async function frmNewResolution(){
         try {
             let respose = await axios.post('/api/create_new_resolution',{inputCount,procedure_title: procedureTitle.value})
@@ -303,8 +375,6 @@ import Swal from 'sweetalert2'
             console.log(error)
         }
     }
-
-
 </script>
 
 <style lang="scss" scoped>

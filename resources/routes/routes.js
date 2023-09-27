@@ -1,5 +1,6 @@
 import IndexComponent from '../js/views/IndexComponent.vue'
 import Login from '../js/views/Login.vue'
+import Unauthorized from '../js/views/401.vue'
 // import PanelTemplate from '../js/views/admin/AdminPanel.vue'
 import PanelTemplate from '../js/views/IndexComponent.vue';
 import Dashboard from '../js/views/admin/Dashboard.vue'
@@ -21,6 +22,17 @@ export default [
                 path: '/',
                 name: 'login',
                 component: Login,
+            },
+        ]
+    },
+    {
+        path: '/unauthorized',
+        component: Unauthorized,
+        children: [
+            {
+                path: '/unauthorized',
+                name: 'unauthorized',
+                component: Unauthorized,
             },
         ]
     },
@@ -47,12 +59,26 @@ export default [
                 path: 'TRT_Maintenance',
                 name: 'trt_maintenance',
                 component: TrtMaintenance
-              
+
             },{
                 path: 'assigned_ticket',
                 name: 'assigned_ticket',
                 component: AssignedTicket
             },
+
+
         ]
-    }
+    },
+    // {
+    //     path: '/unauthorized',
+    //     // redirect: { name: 'login' },
+    //     component: Login,
+    //     children: [
+    //         {
+    //             path: '/unauthorized/',
+    //             name: 'unauthorized',
+    //             component: Login,
+    //         },
+    //     ]
+    // },
 ];
