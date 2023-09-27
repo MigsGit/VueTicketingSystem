@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('resolution_procedure_titles', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('updated_by')->nullable();
-            $table->string('procedure_title');
+            $table->string('procedure_title')->nullable();
             $table->softDeletes();
             $table->timestamps();
-
+            
             $table->foreign('updated_by')->references('id')->on('users'); //foreign key for users
 
         });

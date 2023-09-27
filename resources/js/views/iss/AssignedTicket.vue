@@ -1,121 +1,144 @@
 <template>
+<!-- <ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Home</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">qwerty</div>
+  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">asdfg</div>
+  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">zxcvb</div>
+</div> -->
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Ticket</h1>
+        <h1 class="mt-4">Assigned Ticket</h1>
         <div class="card mt-5"  style="width: 100%;">
-            <div class="card-body overflow-auto">
-                <br><br>
-                <table class="table table-sm table-bordered table-striped table-hover dt-responsive wrap" ref="tableTicket">
-                    <thead>
-                        <tr>
-                            <th>Action</th>
-                            <th>Status</th>
-                            <th>Ticket No.</th>
-                            <th>Assigned To</th>
-                            <th>Resolution Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- <pre>{{ticketDetails}}</pre> -->
-                        <tr v-for="row in ticketDetails" :key="row.id">
-                            <td class="text-center">
-                                <!-- <button type="button" class="btn btn-info btn-sm" :disabled="row.status != 0" @click="editTicket(row.id)"><i class="fas fa-edit"></i></button> -->
-                                <button type="button" class="btn btn-info btn-sm" :disabled="row.status != 0" @click="closingTicket(row.id)"><i class="fas fa-edit"></i></button>
-                            </td>
-                            <td class="text-center">
-                                <span class="badge bg-warning" v-if="row.status == 0">Pending</span>
-                                <span class="badge bg-info" v-else-if="row.status == 1">Assigned</span>
-                            </td>
-                            <td>{{ row.ticket_no }}</td>
-                            <td>{{ row.assign_to }}</td>
-                            <td>{{ row.resolution_timeime }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+            </div> -->
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab" aria-controls="home" aria-selected="true">Pending</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#closed" type="button" role="tab" aria-controls="profile" aria-selected="false">Closed</button>
+                    </li>
+                </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+                    <div class="card-body overflow-auto">
+                        <br><br>
+                        <table class="table table-sm table-bordered table-striped table-hover dt-responsive wrap" ref="tableAssingedTicket">
+                            <thead>
+                                <tr>
+                                    <th>Action</th>
+                                    <th>Status</th>
+                                    <th>Ticket No.</th>
+                                    <th>Subject</th>
+                                    <th>Message</th>
+                                    <th>Assigned To</th>
+                                    <th>Resolution Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- <pre>{{ticketDetails}}</pre> -->
+                                <tr v-for="row in ticketDetails" :key="row.id">
+                                    <td class="text-center">
+                                        <!-- <button type="button" class="btn btn-info btn-sm" :disabled="row.status != 0" @click="editTicket(row.id)"><i class="fas fa-edit"></i></button> -->
+                                        <button type="button" class="btn btn-info btn-sm" :disabled="row.status != 0" @click="fnClickClosingTicket(row.id)"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-warning" v-if="row.status == 0">Pending</span>
+                                        <span class="badge bg-info" v-else-if="row.status == 1">Assigned</span>
+                                        <span class="badge bg-success" v-else-if="row.status == 3">Closed</span>
+                                    </td>
+                                    <td>{{ row.ticket_no }}</td>
+                                    <td>{{ row.subject}}</td>
+                                    <td>{{ row.message }}</td>
+                                    <td>{{ row.assign_to }}</td>
+                                    <td>{{ row.resolution_timeime }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="closed" role="tabpanel" aria-labelledby="closed-tab">
+                    <div class="card-body overflow-auto">
+                        <br><br>
+                        <table class="table table-sm table-bordered table-striped table-hover dt-responsive wrap" ref="tableAssingedTicketClosed">
+                            <thead>
+                                <tr>
+                                    <th>Actionssssssssss</th>
+                                    <th>Status</th>
+                                    <th>Ticket No.</th>
+                                    <th>Subject</th>
+                                    <th>Message</th>
+                                    <th>Assigned To</th>
+                                    <th>Resolution Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- <pre>{{ticketDetails}}</pre> -->
+                                <tr v-for="row in ticketDetails" :key="row.id">
+                                    <td class="text-center">
+                                        <!-- <button type="button" class="btn btn-info btn-sm" :disabled="row.status != 0" @click="editTicket(row.id)"><i class="fas fa-edit"></i></button> -->
+                                        <button type="button" class="btn btn-info btn-sm" :disabled="row.status != 0" @click="fnClickClosingTicket(row.id)"><i class="fas fa-edit"></i></button>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-warning" v-if="row.status == 0">Pending</span>
+                                        <span class="badge bg-info" v-else-if="row.status == 1">Assigned</span>
+                                        <span class="badge bg-success" v-else-if="row.status == 3">Closed</span>
+                                    </td>
+                                    <td>{{ row.ticket_no }}</td>
+                                    <td>{{ row.subject}}</td>
+                                    <td>{{ row.message }}</td>
+                                    <td>{{ row.assign_to }}</td>
+                                    <td>{{ row.resolution_timeime }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <!-- Modal -->
-    <!--
-Close (Permanent)
-Close (Work around)
-Does not meet the requirements
 
-
-A. DATE AND TIME RESOLVED:
-
->02-14-23 9:47am
-
---
-B. INITIAL ASSESSMENT SUMMARY:
-
-> Access to Special Acceptance Module for the specified users
---
-C. ROOT CAUSE:
-
->No access to Special Acceptance Module
-
---
-
-D. MATERIALS AND EQUIPMENT USED:
-
->N/A
-
---
-F. RESOLUTION PROCEDURES:
-
-1.Login to Rapid
-2.Add access to Special Acceptance Module
-3.Check the user's accounts if the new module is successfully created
-4.
-5.
-
---
-G. REFERENCE LINKS USED:
-
->N/A
-
---
-
-H. Confirmed Closure by Requestor (Y/N) - if yes, indicate conformance mode (verbal or email), date, and time of conformance
-
->N, Email
-
-Setting for API ->
-Close (Permanent)
-Close (Work around)
-Does not meet the requirements
-     -->
     <div class="modal fade" ref="modalClosingTicket" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">User</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Closing Ticket</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="post"  @submit.prevent="fnClosingTicket()" ref="formClosingTicket">
+                <form method="post"  @submit.prevent="fnSaveClosingTicket()" ref="formClosingTicket">
                     <div class="modal-body">
-                        <input type="text" name="" id="" class="form-control mb-3">
-                        <!-- <div class="input-group flex-nowrap mb-3"> -->
-                        <!-- </div> -->
+                        <input type="text" v-model="frmClosingTicket.ticket_id"  class="form-control mb-3">
                         <div class="input-group flex-nowrap mb-3">
-                            <span class="input-group-text" id="addon-wrapping">Initial Assessment Summary</span>
-                            <textarea v-model="frmClosingTicket.initial_assessement_summary" type="text" class="form-control" rows="3"></textarea>
+                            <span class="input-group-text w-25 text-wrap" id="addon-wrapping">Initial Assessment Summary</span>
+                            <textarea v-model="frmClosingTicket.initial_assessement_summary" type="text" class="form-control" rows="2"></textarea>
                         </div>
                         <div class="input-group flex-nowrap mb-3">
-                            <span class="input-group-text" id="addon-wrapping">Root Cause</span>
-                            <textarea v-model="frmClosingTicket.root_cause" type="text" class="form-control" rows="3"></textarea>
+                            <span class="input-group-text w-25" id="addon-wrapping" style="text-align: center;">Root Cause</span>
+                            <textarea v-model="frmClosingTicket.root_cause" type="text" class="form-control" rows="2"></textarea>
                         </div>
-                        
+
                         <fieldset class="border rounded-3 p-3 mb-3">
                             <legend class="float-none w-auto px-3">Resolution Procedure:</legend>
-                            
+
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-between">
                                     <div class="input-group flex-nowrap mb-3 justify-content-md-start">
                                         <button
                                             class="btn btn-primary btn-sm"
                                             type="button"
                                             data-item-process="add"
-                                            @click="fnSaveResolutionProcedure($event)"
+                                            @click="fnNewResolution($event)"
                                         >
                                             <li class="fa fa-plus"></li>
                                             Add New
@@ -129,13 +152,14 @@ Does not meet the requirements
                                             <button
                                                 class="btn btn-info btn-sm"
                                                 type="button"
-                                                data-item-process="add"
+                                                data-item-process="search"
                                                 @click="fnReadResolutionProcedureById()"
                                             >
                                             <li class="fa fa-search"></li> Search
                                             </button>
                                     </div>
                                 </div>
+                            <input class="form-control" v-model="frmClosingTicket.resolution_procedure_title_id" type="text" />
                             <table class="table table-stripped">
                                 <thead>
                                     <tr>
@@ -143,9 +167,9 @@ Does not meet the requirements
                                 </thead>
                                 <tbody>
                                     <tr v-for="row in resolutionProcedureDetails" :key="row.id">
-                                        <td>  </td>      
-                                        <td> {{ row.procedure_list }} </td>           
-                                    </tr> 
+                                        <td>  </td>
+                                        <td> {{ row.procedure_list }} </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </fieldset>
@@ -181,69 +205,176 @@ Does not meet the requirements
             </div>
         </div>
     </div>
+<!--
+
+-->
+    <div class="modal fade" ref="modalNewResolution" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header  bg-secondary">
+                    <h5 class="modal-title" id="staticBackdropLabel">New Resolution Procedure</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post"  @submit.prevent="frmNewResolution()" ref="formClosingTicket">
+                    <div class="modal-body">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
+                            <button class="btn btn-primary btn-sm" type="button" data-item-process="add" @click="fnAddRowResolution($event)">
+                                &nbsp;<li class="fa fa-plus"></li>&nbsp;
+                            </button>
+                        </div>
+                        <div class="input-group flex-nowrap mb-3">
+                            <span class="input-group-text" id="addon-wrapping">Resolution Title</span>
+                            <input v-model="procedureTitle" type="text" class="form-control" aria-describedby="addon-wrapping">
+                        </div>
+                        <div class="input-group flex-nowrap mb-2" ref="inputGroupResolutionList" v-for="(item, index) in inputCount.key_num" :key="index">
+                            <!-- <pre>key_num:{{inputCount.key_num}}</pre> -->
+                            <!-- <pre>item:{{item}}</pre> -->
+                            <!-- <pre>index:{{index}}</pre> -->
+                            <span class="input-group-text" ref="countResolution" for="key_num">{{ index+1 }}</span>
+                            <textarea v-model="item.valueNewResolution" type="text" class="form-control" rows="1" id="key_num"></textarea>
+                            <button class="btn btn-danger btn-sm" type="button" data-item-process="add" @click="fnRemoveRowResolution(index)">
+                                &nbsp;<li class="fa fa-trash"></li>&nbsp;
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success btn-sm"><li class="fas fa-save"></li> Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup>
-import {ref, reactive, onMounted} from 'vue';
+import {ref, reactive, onMounted, watch, nextTick} from 'vue'
+import Swal from 'sweetalert2'
+/*
+    Global Inputs
+*/
     let objModalClosingTiket = ''
+    let objModalNewResolution = ''
+/*
+    Ref
+*/
+    const modalClosingTicket = ref(null)
+    const modalNewResolution = ref(null)
 
     const ticketDetails = ref(null)
-    const modalClosingTicket = ref(null)
     const searchResolutionTitle = ref(null)
     const frmClosingTicket = ref({});
 
-    const optResolutionTitle = ref(null);
-    const selectedResolutionTitleId = ref(null);
-    const resolutionProcedureDetails = ref(null);
+    const optResolutionTitle = ref(null)
+    const selectedResolutionTitleId = ref(null)
+    const resolutionProcedureDetails = ref(null)
 
+    const tableAssingedTicket = ref(null)
+
+/*
+    Multiple Inputs
+*/
+    const inputCount = reactive({key_num: [] })
+    const procedureTitle = ref(null)
+/*
+    DataTable
+*/
+    var dtAssingedTicket = null;
+    dtAssingedTicket = $(tableAssingedTicket.value).DataTable({
+
+    });
+/*
+    * WATCH will reload the DataTable after saving.
+    * This will serve as .draw()
+*/
+    onMounted(() => {
+        getTicket()
+        objModalClosingTiket = new Modal(modalClosingTicket.value)
+        objModalNewResolution = new Modal(modalNewResolution.value)
+    })
+    watch(ticketDetails, async (ticketDetails) => {
+        console.log(ticketDetails);
+        dtAssingedTicket.destroy();
+        nextTick(() => {
+            dtAssingedTicket = $(tableAssingedTicket.value).DataTable()
+        });
+    })
+    async function fnAddRowResolution(){
+        inputCount.key_num.push({ valueNewResolution: []})
+        console.log(inputCount.key_num);
+    }
+    async function fnRemoveRowResolution(index){
+        inputCount.key_num.splice(index,1);
+        console.log(inputCount);
+    }
     async function selectedResolutionTitle(event){
         selectedResolutionTitleId.value = event.target.value;
     }
     async function getTicket(){
         try{
-            let respose = await axios.get('/api/get_tickets');
-            ticketDetails.value = respose.data;
+            let respose = await axios.get('/api/get_assigned_tickets')
+            ticketDetails.value = respose.data
         }catch(err){
-            alert(err)
+            // alert(err)
+            // console.log(err);
+            // console.log(err['response']['status'])
+            if(err['response']['status']){
+                // 401
+            }
         }
     }
-
-    async function closingTicket(dataId){
+    async function fnClickClosingTicket(ticketId){
         try{
-            objModalClosingTiket.show();
-            // console.log(dataId);
-
-            // let respose = await axios.get('/api/read_tickets')
-            // ticketDetails.value = respose.data
-            // console.log(ticketDetails)
+            frmClosingTicket.value.ticket_id = ticketId;
+            objModalClosingTiket.show()
+            fnReadResolutionProcedureByUser()
         }catch(err){
             alert(err)
         }
     }
-    
-    async function fnClosingTicket(){
-        let response = axios.post('/api/closing_ticket',frmClosingTicket.value);
-        console.log(response);
+    async function fnNewResolution(){
+        objModalNewResolution.show();
+    }
+    async function fnSaveClosingTicket(){
+        try {
+            let response = axios.post('/api/closing_ticket',frmClosingTicket.value)
+            objModalClosingTiket.hide()
+            Swal.fire({
+                    icon: "success",
+                    title: "Closed Successfully",
+                    showConfirmButton: false,
+                    timer: 1500,
+            });
+            getTicket()
+        } catch (error) {
+            alert('fnSaveClosingTicket')
+        }
     }
     async function fnReadResolutionProcedureById(){
-        let response = await axios.get('/api/read_resolution_title_by_id',{params: {selected_resolution_title_id: selectedResolutionTitleId.value}});
-        resolutionProcedureDetails.value = response['data'][0].resolution_procedure_lists
-        console.log(resolutionProcedureDetails.value.length);
+        let response = await axios.get('/api/read_resolution_title_by_id',{
+            params: {selected_resolution_title_id: selectedResolutionTitleId.value}
+        });
+        let data = response['data'][0]
+        resolutionProcedureDetails.value = data.resolution_procedure_lists
+        frmClosingTicket.value.resolution_procedure_title_id = data.id
     }
-
     async function fnReadResolutionProcedureByUser(){
-        let response = await axios.get('/api/read_resolution_by_user');
-        optResolutionTitle.value = response['data'];
-
-        // resolution_procedure_lists
-        // console.log(optResolutionTitle.value)
+        let response = await axios.get('/api/read_resolution_by_user')
+        optResolutionTitle.value = response['data']
     }
+    async function frmNewResolution(){
+        try {
+            let respose = await axios.post('/api/create_new_resolution',{inputCount,procedure_title: procedureTitle.value})
+            objModalNewResolution.hide()
+            let data = respose['data']
 
-    onMounted(() => {
-        fnReadResolutionProcedureByUser()
-        getTicket()
-        objModalClosingTiket = new Modal(modalClosingTicket.value);
-    })
+            frmClosingTicket.value.resolution_procedure_title_id = data['resolution_procedure_title_id']
+            resolutionProcedureDetails.value = data['resolution_procedure_lists'][0]['resolution_procedure_lists']
+            fnReadResolutionProcedureByUser()
+        } catch (error) {
+            console.log(error)
+        }
+    }
 </script>
 
 <style lang="scss" scoped>

@@ -40,4 +40,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('closing_ticket', [TicketController::class , 'closingTicket'])->name('closing_ticket');
     Route::get('read_resolution_by_user', [TicketController::class , 'readResolutionByUser'])->name('read_resolution_by_user');
     Route::get('read_resolution_title_by_id', [TicketController::class , 'readResolutionTitleById'])->name('read_resolution_title_by_id');
+    
+    Route::post('create_new_resolution', [TicketController::class , 'createNewResolution'])->name('create_new_resolution');
+    Route::get('get_assigned_tickets', [TicketController::class , 'getAssignedTickets'])->name('get_assigned_tickets');
 });

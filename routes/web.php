@@ -14,10 +14,12 @@ use App\Http\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::any('users/{id}', function ($id) {
+
+});
 Route::middleware('CheckHasNoSession')->group(function(){
-    Route::get('/', function () {
-        return view('main');
-    });
+    Route::view('/', 'main');
+    Route::view('/unauthorized', 'main');
 });
 Route::middleware('CheckHasSession')->group(function(){
     Route::get('/panel_template/{any}', function(){

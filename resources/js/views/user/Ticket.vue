@@ -55,7 +55,6 @@
         await axios.get('/api/get_tickets').then((res) => {
             // console.log(res.data);
             columns.value = res.data;
-            
         }).catch((err)=>{
 
         });
@@ -63,7 +62,6 @@
 
     const saveTicket = async () => {
         const formData = new FormData(formTicket.value);
-        
         await axios.post('/api/save_ticket', formData).then((res) => {
             console.log(res);
             if(res.data.result == 1){
@@ -90,8 +88,6 @@
             ticketForm.id = res.data.ticketData.id;
             ticketForm.subject = res.data.ticketData.subject;
             ticketForm.message = res.data.ticketData.message;
-
-            
         }).catch((err) => {
 
         });
@@ -103,10 +99,8 @@
         <h1 class="mt-4">Ticket</h1>
         <div class="card mt-5"  style="width: 100%;">
             <div class="card-body overflow-auto">
-                
                 <button type="button" class="btn btn-primary" style="float: right !important;" data-bs-toggle="modal" data-bs-target="#ModalTicket" @click="state.ticketModalTitle = 'Add Ticket'"><i class="fas fa-plus"></i> Add Ticket</button>
                 <br><br>
-            
                 <table class="table table-sm table-bordered table-striped table-hover dt-responsive wrap" ref="tableTicket">
                     <thead>
                         <tr>
@@ -127,6 +121,7 @@
                             <td class="text-center">
                                 <span class="badge bg-warning" v-if="row.status == 0">Pending</span>
                                 <span class="badge bg-info" v-else-if="row.status == 1">Assigned</span>
+                                <span class="badge bg-success" v-else-if="row.status == 3">Closed</span>
                             </td>
                             <td>{{ row.ticket_no }}</td>
                             <td>{{ row.subject }}</td>

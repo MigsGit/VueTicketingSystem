@@ -1,5 +1,6 @@
 import IndexComponent from '../js/views/IndexComponent.vue'
 import Login from '../js/views/Login.vue'
+import Unauthorized from '../js/views/401.vue'
 // import PanelTemplate from '../js/views/admin/AdminPanel.vue'
 import PanelTemplate from '../js/views/IndexComponent.vue';
 import Dashboard from '../js/views/admin/Dashboard.vue'
@@ -14,7 +15,6 @@ console.log('routes');
 export default [
     {
         path: '/',
-        // redirect: { name: 'login' },
         component: Login,
         children: [
             {
@@ -23,6 +23,10 @@ export default [
                 component: Login,
             },
         ]
+    },
+    {
+        path: '/unauthorized',
+        component: Unauthorized,
     },
     {
         path: '/panel_template/',
@@ -53,6 +57,8 @@ export default [
                 name: 'assigned_ticket',
                 component: AssignedTicket
             },
+
+
         ]
-    }
+    },
 ];

@@ -15,13 +15,10 @@ class CheckHasSession
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next)
-    {  
+    {
         if(!$request->session()->exists('id')){
             // session()->get()
-            // return redirect('/Laravel10System/Dashboard');
-            return redirect('/');
-            // return redirect('/panel_template/dashboard');
-
+            return redirect('/unathorized');
         }
         return $next($request);
     }
