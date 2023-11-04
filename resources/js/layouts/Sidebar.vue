@@ -7,11 +7,12 @@ const useAuth = useAuthStore();
         <div class="sb-sidenav-menu">
             <div class="nav">
                 <router-link class="nav-link" :to="{ name: 'dashboard' }">
-                    <i class="fas fa-tachometer-alt"></i>&nbsp;Dashboard
+                    <font-awesome-icon class="nav-icon" icon="gauge-high" />&nbsp;Dashboard
+                    <!-- <i class="fas fa-tachometer-alt" icon="fa-tachometer-alt"></i>&nbsp;Dashboard -->
                 </router-link>
                 <div class="sb-sidenav-menu-heading">User</div>
                 <router-link class="sb-nav-link-icon nav-link" :to="{ name: 'ticket' }">
-                    <i class="fa-brands fa-d-and-d"></i>&nbsp; Ticket
+                    <i class="fa-brands fa-d-and-d" ></i>&nbsp; Ticket
                 </router-link>
                 <div class="sb-sidenav-menu-heading">Admin</div>
                 <router-link class="sb-nav-link-icon nav-link" :to="{ name: 'user_master' }">
@@ -28,10 +29,9 @@ const useAuth = useAuthStore();
 
 
 
-
                 <div class="sb-sidenav-menu-heading"><i class="fas fa-cog"></i> Settings</div>
-                <router-link class="sb-nav-link-icon nav-link" :to="{ name: 'assigned_ticket' }">
-                    <i class="fas fa-module-alt"></i>&nbsp; Procedure List
+                <router-link class="sb-nav-link-icon nav-link" :to="{ name: 'setting_procedure_list' }">
+                    <i class="fas fa-tasks"></i>&nbsp; Procedure List
                 </router-link>
             </div>
         </div>

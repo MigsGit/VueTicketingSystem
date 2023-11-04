@@ -34,7 +34,7 @@ class TicketController extends Controller
     }
     public function save_ticket(Request $request){
         date_default_timezone_set('Asia/Manila');
-        
+
         if(isset($request->ticketId)){ // * UPDATE
             // return $request->all();
             Ticket::where('id', $request->ticketId)
@@ -121,11 +121,11 @@ class TicketController extends Controller
     }
 
     public function readResolutionByUser(Request $request){
-        return ResolutionProcedureTitle::all();
+        return ResolutionProcedureTitle::where('updated_by',Auth::user()->id)->get();
     }
 
     public function readResolutionTitleById(Request $request){
-        return ResolutionProcedureTitle::with('ResolutionProcedureLists')
+        return ResolutionProcedureTitle::with('resolutionProcedureLists')
                                         ->where('id',$request->selected_resolution_title_id)->get();
     }
 
@@ -145,7 +145,7 @@ class TicketController extends Controller
                     ]);
                 }
             }
-            $resolution_procedure_lists = ResolutionProcedureTitle::with('ResolutionProcedureLists')
+            $resolution_procedure_lists = ResolutionProcedureTitle::with('resolutionProcedureLists')
                                         ->where('id',$resolution_procedure_title_id)
                                         ->limit(5)->get();
             return (['resolution_procedure_title_id' => $resolution_procedure_title_id,'resolution_procedure_lists' => $resolution_procedure_lists]);
@@ -156,7 +156,7 @@ class TicketController extends Controller
 
     public function getAssignedTickets(){
         return Ticket::where('assigned_to',Auth::user()->id)->get();
-        
+
     }
 
     public function sendEmail(){

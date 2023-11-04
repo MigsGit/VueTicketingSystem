@@ -6,6 +6,7 @@ import PanelTemplate from '../js/views/IndexComponent.vue';
 import Dashboard from '../js/views/admin/Dashboard.vue'
 import UserMaster from '../js/views/admin/UserMaster.vue'
 import TrtMaintenance from '../js/views/admin/TrtMaintenance.vue'
+import SettingProcedureList from '../js/views/settings/SettingProcedureList.vue'
 
 // USER
 import Ticket from '../js/views/user/Ticket.vue';
@@ -51,11 +52,19 @@ export default [
                 path: 'TRT_Maintenance',
                 name: 'trt_maintenance',
                 component: TrtMaintenance
-            }
-            ,{
+            },
+            {
                 path: 'assigned_ticket',
                 name: 'assigned_ticket',
                 component: AssignedTicket
+            },
+
+//SETTINGS
+
+            {
+                path: 'setting_procedure_list',
+                name: 'setting_procedure_list',
+                component: SettingProcedureList
             },
 
 

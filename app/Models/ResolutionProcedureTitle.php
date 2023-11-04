@@ -12,7 +12,7 @@ class ResolutionProcedureTitle extends Model
 {
     use HasFactory;
 
-    public function ResolutionProcedureLists(){
+    public function resolutionProcedureLists(){
         return $this->hasMany(ResolutionProcedureList::class,'resolution_procedure_title_id')->whereNull('deleted_at');
     }
 }

@@ -12,9 +12,7 @@ class AuthController extends Controller
 {
     //
     public function login(LoginRequest $request){
-        // return 'qwe';
         $fields = $request->validated();
-
         $user_info = User::where('email', $request->email)->first();
 
         if(isset($user_info)){
@@ -31,8 +29,8 @@ class AuthController extends Controller
                     'msg' => "Username or Password is incorrect"
                 ], 401);
             }
-            $request->session()->put('id', Auth::user()->id); 
-            $request->session()->put('username', Auth::user()->email); 
+            $request->session()->put('id', Auth::user()->id);
+            $request->session()->put('username', Auth::user()->email);
 
             return response()->json(['msg' => 'Login Successful','userData' => Auth::user()]);
 

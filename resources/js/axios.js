@@ -9,7 +9,7 @@ axios.interceptors.response.use(
     (error) => {
         if(error.response && error.response.status === 401){
             // Router.push({name: 'Unauthorized'})
-       
+
             console.log('401');
             // alert('qqwe');
         }

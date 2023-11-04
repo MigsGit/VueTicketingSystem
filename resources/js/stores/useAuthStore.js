@@ -12,12 +12,10 @@ export const useAuthStore = defineStore("auth", {
         error: null,
     }),
     getters: {
-      
+
     },
     actions: {
         async login(credentials){
-            console.log(credentials);
-          
             await axios.post('/login',credentials).then((res)=>{
                 console.log(res.data.userData);
                 this.email = res.data.userData.email;
@@ -27,12 +25,12 @@ export const useAuthStore = defineStore("auth", {
             })
             .catch((err)=>{
                 console.log(err);
-                toastr.open({
-                    message: err.response.data.msg,
-                    type: 'error',
-                    position: 'top-right',
-                    duration: 2000,
-                }); // * usage of Toastr notification
+                // toastr.open({
+                //     message: err.response.data.msg,
+                //     type: 'error',
+                //     position: 'top-right',
+                //     duration: 2000,
+                // }); // * usage of Toastr notification
             });
         },
         async logout(){
@@ -42,7 +40,7 @@ export const useAuthStore = defineStore("auth", {
                 Router.push({name: 'login'});
             })
             .catch((err)=>{
-                
+
             });
         },
         resetStore() {
