@@ -6,9 +6,9 @@ import { pinia } from '/resources/js/stores';
 /*
  * Vendors/Plugins
 */
-import { library } from '@fortawesome/fontawesome-svg-core' /* import the fontawesome core npm i @fortawesome/fontawesome-svg-core*/
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome' /* import font awesome icon component pm i @fortawesome/vue-fontawesome*/
-import { fas } from '@fortawesome/free-solid-svg-icons' /* import entire style npm i @fortawesome/free-solid-svg-icons*/
+import { library } from '@fortawesome/fontawesome-svg-core' /* import the fontawesome core | npm i @fortawesome/fontawesome-svg-core*/
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome' /* import font awesome icon component | npm i @fortawesome/vue-fontawesome*/
+import { fas } from '@fortawesome/free-solid-svg-icons' /* import entire style | npm i @fortawesome/free-solid-svg-icons*/
 library.add(fas) /* add icons to the library */
 /*
  *Startbootstrap-sb-admin template

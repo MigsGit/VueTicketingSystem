@@ -131,6 +131,8 @@ class TicketController extends Controller
 
     public function createNewResolution(Request $request){
         try {
+            return $value = $request->all();
+            return; 
             $value = $request->all();
             $value_resolution_list = $value['inputCount']['key_num'];
             $resolution_procedure_title_id = ResolutionProcedureTitle::insertGetId([
