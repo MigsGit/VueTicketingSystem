@@ -18,13 +18,16 @@
             </div>
         </div>
     </div>
-    
-    <Modal icon="fa-user" title="Resolution Procedure"> <!-- @add-event="" -->
+
+    <Modal icon="fa-user" title="Resolution Procedure" @add-event="frmNewResolution"> <!-- @add-event="" -->
         <template #body>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
                 <button class="btn btn-primary btn-sm" type="button" data-item-process="add" @click="fnAddRowResolution($event)">
                     &nbsp;<li class="fa fa-plus"></li>&nbsp;
                 </button>
+            </div>
+            <div class="input-group flex-nowrap mb-3">
+                <input v-model="procedureTitleId" type="text" class="form-control" aria-describedby="addon-wrapping">
             </div>
             <div class="input-group flex-nowrap mb-3">
                 <span class="input-group-text" id="addon-wrapping">Resolution Title</span>
@@ -42,7 +45,7 @@
             </div>
         </template>
         <template #footer>
-            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+            <button type="button" id= "closeBtn" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
             <button type="submit" class="btn btn-success btn-sm"><li class="fas fa-save"></li> Save</button>
         </template>
     </Modal>
@@ -53,10 +56,16 @@
     import DataTable from 'datatables.net-vue3'
     import DataTablesCore from 'datatables.net-bs5'
     DataTable.use(DataTablesCore)
-    import Modal from '../../components/Modal.vue'
 
+    import Modal from '../../components/Modal.vue'
     import resolutionProcedure from '../../composables/resolution_procedure'
-    const {fnAddRowResolution,fnRemoveRowResolution,inputCount,procedureTitle} = resolutionProcedure()
+
+    const {fnAddRowResolution,fnRemoveRowResolution,inputCount} = resolutionProcedure()
+    const procedureTitleId = ref(null)
+    const procedureTitle = ref(null)
+    const tableProcedureList = ref()
+    const toastr = new Toast();
+
 
     onMounted(() => {
         document.querySelector('#modalSaveResProcedure').addEventListener('hidden.bs.modal', function () {
@@ -85,21 +94,63 @@
         { data: 'procedure_title',                  title: 'Title' },
         { data: 'resolution_procedure_lists',       title: 'List'  }
     ];
+
     async function readResProcedure(resProcedureId){
-        let response = await axios.get('/api/read_resolution_title_by_id',{
-            params: {selected_resolution_title_id: resProcedureId}
-        });
-        
-        console.log(inputCount.key_num);
-        // console.log(response.data[0].procedure_title);
-        // console.log(response.data[0].resolution_procedure_lists.length);
-        let arrResoProcedureList = response.data[0].resolution_procedure_lists
-        for (let i = 0; i < arrResoProcedureList.length; i++) {
-            const resProcedureList = arrResoProcedureList[i].procedure_list
-            inputCount.key_num.push({ valueNewResolution: resProcedureList})
+        try {
+
+            let response = await axios.get('/api/read_resolution_title_by_id',{
+                params: {selected_resolution_title_id: resProcedureId}
+            });
+            procedureTitleId.value = resProcedureId;
+            procedureTitle.value = response.data[0].procedure_title;
+            console.log(inputCount.key_num);
+
+            let arrResoProcedureList = response.data[0].resolution_procedure_lists
+            for (let i = 0; i < arrResoProcedureList.length; i++) {
+                const resProcedureList = arrResoProcedureList[i].procedure_list
+                inputCount.key_num.push({ valueNewResolution: resProcedureList})
+            }
+        } catch (error) {
+
         }
     }
-    
+
+    async function frmNewResolution(){
+        try {
+            let response = await axios.post('/api/create_new_resolution',{
+                inputCount,
+                procedure_title: procedureTitle.value,
+                procedure_title_id : procedureTitleId.value
+            })
+            // console.log(response.data.is_success);
+            let isSuccess = response.data.is_success;
+            if(isSuccess === 'true'){
+                document.getElementById('closeBtn').click()
+                // readResProcedure();
+                tableProcedureList.value.dt.draw()
+                toastr.open({
+                    // message: res.data.msg,
+                    message: 'Saved Sucessfully',
+                    type: 'success',
+                    position: 'top-right',
+                    duration: 2000,
+                })
+            }else{
+                alert('isSuccess false')
+            }
+            // objModalNewResolution.hide()
+            // let data = respose['data']
+
+            // frmClosingTicket.value.resolution_procedure_title_id = data['resolution_procedure_title_id']
+            // resolutionProcedureDetails.value = data['resolution_procedure_lists'][0]['resolution_procedure_lists']
+            // fnReadResolutionProcedureByUser()
+        } catch (error) {
+            alert(error)
+        }
+    }
+
+    // tableProcedureList.value.dt.draw()
+        // tableProcedureList.value.ajax.url('/api/read_resolution_by_user_setting').load(); /* load the url of DT */
 
 </script>
 

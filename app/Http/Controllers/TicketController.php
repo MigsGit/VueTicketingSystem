@@ -130,27 +130,54 @@ class TicketController extends Controller
     }
 
     public function createNewResolution(Request $request){
+        date_default_timezone_set('Asia/Manila');
         try {
-            return $value = $request->all();
-            return; 
+            /**
+             * TODO: Edit Procedure List if procedure_title_id exist
+             * TODO: Modal OOP for SettingProcList & Assigned Ticket Add New Resolution List
+             *
+             */
             $value = $request->all();
             $value_resolution_list = $value['inputCount']['key_num'];
-            $resolution_procedure_title_id = ResolutionProcedureTitle::insertGetId([
-                    'updated_by' => 1,
-                    'procedure_title' => $request->procedure_title
-            ]);
-            foreach($value_resolution_list as $value_resolution_list_key_num){
-                foreach($value_resolution_list_key_num as $arr_value_resolution_list){
-                    ResolutionProcedureList::insert([
-                        'resolution_procedure_title_id' => $resolution_procedure_title_id,
-                        'procedure_list'=>$arr_value_resolution_list
-                    ]);
+            $procedure_title_id = $request->procedure_title_id;
+            if($procedure_title_id != null || isset( ($procedure_title_id) ) ){
+                ResolutionProcedureTitle::where('id',$procedure_title_id)->update([
+                    'updated_by' => 11,
+                    'procedure_title' => $request->procedure_title,
+                    'updated_at' => date('Y-m-d H:i:s')
+                ]);
+                ResolutionProcedureList::where('resolution_procedure_title_id',$procedure_title_id)->update([
+                    'deleted_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ]);
+                foreach($value_resolution_list as $value_resolution_list_key_num){
+                    foreach($value_resolution_list_key_num as $arr_value_resolution_list){
+                        ResolutionProcedureList::insert([
+                            'resolution_procedure_title_id' => $procedure_title_id,
+                            'procedure_list'=>$arr_value_resolution_list
+                        ]);
+                    }
                 }
+                return (['is_success'=>'true']);
+            }else{
+                $resolution_procedure_title_id = ResolutionProcedureTitle::insertGetId([
+                        'updated_by' => 11,
+                        'procedure_title' => $request->procedure_title
+                ]);
+                foreach($value_resolution_list as $value_resolution_list_key_num){
+                    foreach($value_resolution_list_key_num as $arr_value_resolution_list){
+                        ResolutionProcedureList::insert([
+                            'resolution_procedure_title_id' => $resolution_procedure_title_id,
+                            'procedure_list'=>$arr_value_resolution_list
+                        ]);
+                    }
+                }
+                $resolution_procedure_lists = ResolutionProcedureTitle::with('resolutionProcedureLists')
+                                            ->where('id',$resolution_procedure_title_id)
+                                            ->limit(5)->get();
+                return (['is_success'=>'true','resolution_procedure_title_id' => $resolution_procedure_title_id,'resolution_procedure_lists' => $resolution_procedure_lists]);
             }
-            $resolution_procedure_lists = ResolutionProcedureTitle::with('resolutionProcedureLists')
-                                        ->where('id',$resolution_procedure_title_id)
-                                        ->limit(5)->get();
-            return (['resolution_procedure_title_id' => $resolution_procedure_title_id,'resolution_procedure_lists' => $resolution_procedure_lists]);
+
         }catch (\Throwable $th) {
             throw $th;
         }

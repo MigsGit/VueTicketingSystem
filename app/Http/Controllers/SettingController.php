@@ -25,6 +25,7 @@ class SettingController extends Controller
         ->addColumn('action',function($row){
             // return $row->id;
             return $btn = '<button data-id = "'.$row->id.'" data-bs-toggle="modal" data-bs-target="#modalSaveResProcedure" id="editResProcedure" type="button" class="btn btn-info btn-sm" title="Edit"></i>Edit</button>';
+            // return $btn = '<button data-id = "'.$row->id.'" id="editResProcedure" type="button" class="btn btn-info btn-sm" title="Edit"></i>Edit</button>';
         })
         ->rawColumns(['resolution_procedure_lists','action'])
         ->make(true);
