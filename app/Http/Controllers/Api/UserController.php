@@ -34,7 +34,7 @@ class UserController extends Controller
     {
         try {
             if(isset($request->data_id)){
-                // return $request->all();
+                return $request->all();
                 User::where('id',$request->data_id)->update([
                     'name' => $request->full_name,
                     'email' => $request->email,
@@ -42,7 +42,7 @@ class UserController extends Controller
                 ]);
                 return response(["result"=>"sucess"]);
             }else{
-                // return 'false';
+                return 'false';
                 User::insert([
                     'name' => $request->full_name,
                     'email' => $request->email,

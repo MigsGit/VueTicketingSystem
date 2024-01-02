@@ -1,7 +1,7 @@
 <script setup>
     import DataTable from 'datatables.net-vue3';
     import DataTablesCore from 'datatables.net-bs5';
-    
+
     DataTable.use(DataTablesCore);
 
     import { onMounted, ref, reactive, watch,nextTick } from "vue";
@@ -48,7 +48,7 @@
         dt.destroy();
         nextTick(() => {
             dt = $(tableTicket.value).DataTable()
-        }); 
+        });
     });
 
     const getTicket = async () => {
@@ -149,7 +149,7 @@
                                 <div class="input-group-prepend w-50">
                                     <span class="input-group-text w-100" id="basic-addon1" style="background-color: #17a2b8; color: white;">Sub:</span>
                                 </div>
-                                
+
                                     <input type="text" class="form-control" name="packingCtrl" id="packingControlId" readonly>
                             </div> -->
                             <div class="form-group">

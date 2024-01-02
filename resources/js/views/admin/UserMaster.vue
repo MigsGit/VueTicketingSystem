@@ -123,8 +123,9 @@
             }
         }
     }
-    async function fnSaveUserInfo(){
+    async function fnSaveUserInfo(event){
         try {
+            // event.preventDefault();
             let response = await axios.post('/api/save_user_info',frmUserInfo.value)
             // console.log(response)
             objModalUserInfo.hide();
@@ -135,6 +136,8 @@
                     timer: 1500,
             });
             fnFetchUserInfo()
+            // frmUserInfo.value = ''
+
         }
         catch (err) {
             let errorStatus = err.response.status
@@ -171,8 +174,23 @@
     onMounted(() => {
         fnFetchUserInfo()
         objModalUserInfo = new Modal(modalUserInfo.value)
-        modalUserInfo.value.addEventListener('hidden.bs.modal',function (){
-            formUser.value.reset()
+        modalUserInfo.value.addEventListener('hidden.bs.modal',function (event){
+            // frmUserInfo.value.full_name = ''
+            // console.log(frmUserInfo.value.full_name = '');
+            frmUserInfo.value.data_id = ''
+            frmUserInfo.value.full_name = ''
+            frmUserInfo.value.email = ''
+            full_name.value.classList.remove('is-invalid')
+            full_name.value.title = "";
+            email.value.classList.remove('is-invalid')
+            email.value.title = "";
+            /*
+
+                <input type="hidden" ref="data_id" v-model="frmUserInfo.data_id" class="form-control mb-3" placeholder="ID">
+                <input type="text" ref="full_name" v-model="frmUserInfo.full_name" class="form-control mb-3" placeholder="Full Name">
+                <input type="text" ref="email" v-model="frmUserInfo.email" class="form-control mb-3" placeholder="Email">
+            */
+
         })
     })
     watch(getUserInfo, async (getUserInfo) => {
