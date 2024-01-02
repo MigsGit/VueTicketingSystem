@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TRTController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Api\UserController;
@@ -23,6 +24,9 @@ use App\Http\Controllers\Api\UserController;
 // });
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('logout',[AuthController::class, 'logout']);
+    Route::get('check_ses',[AuthController::class, 'check_ses']);
+
     Route::get('get_tickets', [TicketController::class, 'get_tickets']);
     Route::post('save_ticket', [TicketController::class, 'save_ticket']);
     Route::get('get_ticket_info', [TicketController::class, 'get_ticket_info']);
@@ -43,6 +47,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('deact_trt', [TRTController::class , 'deact_trt'])->name('deact_trt');
 
 
-
+    Route::get('check_ses',[AuthController::class, 'check_ses']);
     Route::get('read_resolution_by_user_setting', [SettingController::class , 'readResolutionByUserSetting'])->name('read_resolution_by_user_setting');
+
 });

@@ -42,8 +42,9 @@ class Kernel extends HttpKernel
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class, // uncomment this for sanctum
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-
-
+            // If adding your routes inside the web middleware doesn't work for any reason then try adding this to $middleware into Kernel.php
+            \Illuminate\Session\Middleware\StartSession::class,
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         ],
     ];
 
