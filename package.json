@@ -12,6 +12,7 @@
         "postcss": "^8.1.14",
         "sass": "^1.66.1",
         "vite": "^4.0.0"
+        
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.4.2",

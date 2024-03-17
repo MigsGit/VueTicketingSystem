@@ -3,6 +3,17 @@ import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
+    build: {
+        rollupOptions: {
+          output: {
+            entryFileNames: `assets/[name].js`,
+            chunkFileNames: `assets/[name].js`,
+            assetFileNames: `assets/[name].[ext]`
+          }
+        },
+        chunkSizeWarningLimit:2000,
+
+    },
     plugins: [
         vue({
             template: {
@@ -13,7 +24,7 @@ export default defineConfig({
             },
         }),
         laravel({
-            input: ['resources/sass/app.scss',
+            input: ['resources/css/app.css',
             'resources/js/app.js'],
             refresh: true,
         }),

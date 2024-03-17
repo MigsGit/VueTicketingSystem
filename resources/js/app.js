@@ -1,4 +1,5 @@
 import './bootstrap'
+import '../css/app.css';
 import {createApp} from 'vue'
 // import IndexComponent from './views/IndexComponent.vue'
 import AppTemplate from '/resources/js/layouts/App.vue';
