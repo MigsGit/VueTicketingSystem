@@ -34,15 +34,16 @@ class UserController extends Controller
     {
         try {
             if(isset($request->data_id)){
-                return $request->all();
+
+                // return $request->all();
                 User::where('id',$request->data_id)->update([
                     'name' => $request->full_name,
                     'email' => $request->email,
-                    'password' => Hash::make('pmi12345'),
+                    // 'password' => Hash::make('pmi12345'),
                 ]);
-                return response(["result"=>"sucess"]);
+                return response(["result"=>"success"]);
             }else{
-                return 'false';
+                // return 'false';
                 User::insert([
                     'name' => $request->full_name,
                     'email' => $request->email,

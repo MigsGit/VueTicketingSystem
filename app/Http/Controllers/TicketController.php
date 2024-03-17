@@ -185,7 +185,6 @@ class TicketController extends Controller
 
     public function getAssignedTickets(){
         return Ticket::where('assigned_to',Auth::user()->id)->get();
-
     }
 
     public function sendEmail(){

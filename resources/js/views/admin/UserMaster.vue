@@ -185,7 +185,6 @@
             email.value.classList.remove('is-invalid')
             email.value.title = "";
             /*
-
                 <input type="hidden" ref="data_id" v-model="frmUserInfo.data_id" class="form-control mb-3" placeholder="ID">
                 <input type="text" ref="full_name" v-model="frmUserInfo.full_name" class="form-control mb-3" placeholder="Full Name">
                 <input type="text" ref="email" v-model="frmUserInfo.email" class="form-control mb-3" placeholder="Email">

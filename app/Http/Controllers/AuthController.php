@@ -40,8 +40,8 @@ class AuthController extends Controller
         }
     }
     public function logout(Request $request){
-        // $var = $request->session()->forget(['id','username']);
-        $var = $request->session()->flush();
+        $var = $request->session()->forget(['id','username']);
+        // $var = $request->session()->flush();
     }
     public function check_ses(Request $request){
         $var = $request->session()->get('id');
