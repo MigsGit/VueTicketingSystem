@@ -75,7 +75,7 @@
                         <table class="table table-sm table-bordered table-striped table-hover dt-responsive wrap" ref="tableAssingedTicketClosed">
                             <thead>
                                 <tr>
-                                    <th>Actionssssssssss</th>
+                                    <th>Actions</th>
                                     <th>Status</th>
                                     <th>Ticket No.</th>
                                     <th>Subject</th>

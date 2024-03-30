@@ -3,6 +3,7 @@ import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
+    // remove hash in public/asset/js & css
     build: {
         rollupOptions: {
           output: {
@@ -12,7 +13,6 @@ export default defineConfig({
           }
         },
         chunkSizeWarningLimit:2000,
-
     },
     plugins: [
         vue({

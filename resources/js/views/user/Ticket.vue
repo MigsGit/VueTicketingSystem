@@ -88,6 +88,9 @@
 </template>
 
 <script setup>
+    // TODO: Do the DataTable
+    //TODO: Query for assigned ticket
+
     import DataTable from 'datatables.net-vue3';
     import DataTablesCore from 'datatables.net-bs5';
 
