@@ -1,0 +1,32 @@
+services:
+
+  laravel-vue:
+    container_name: laravel-vue
+    build: .
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - 8000:80
+    depends_on:
+      - mysql_db
+  mysql_db:
+    container_name: laravel-vue-mysql-db
+    image: mysql:latest
+    environment:
+        # - MYSQL_USER=sample
+        # - MYSQL_PASSWORD = AdM!n1234*
+        # - MYSQL_ROOT_PASSWORD=AdM!n1234*
+        MYSQL_ROOT_PASSWORD: AdM!n1234*
+        MYSQL_DATABASE: vue_admin
+    ports:
+      - 3306:3306
+  phpmyadmin:
+    container_name: laravel-vue-phpmyadmin
+    image: phpmyadmin:latest
+    ports:
+      - 8001:80
+    environment:
+      - PMA_HOST=mysql_db
+      - PMA_PORT=3306
+      # - PMA_ARBITRARY=1
+
