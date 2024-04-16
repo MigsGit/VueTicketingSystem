@@ -66,7 +66,7 @@
                             </div> -->
                             <div class="form-group">
                                 <label><strong>Subject:</strong></label>
-                                <input type="text" class="form-control" name="ticket_subject" v-model="ticketForm.subject" required>
+                                <input type="text" class="form-control" v-model="ticketForm.subject" required>
                             </div>
                             <br>
                             <div class="form-group">
@@ -74,7 +74,10 @@
                                 <!-- <input type="text" class="form-control" name="ticket_subject" v-model="ticketForm.subject"> -->
                                 <textarea class="form-control" name="ticket_message" v-model="ticketForm.message" cols="30" rows="10" placeholder="Type Here..." required></textarea>
                             </div>
-
+                            <div class="form-group">
+                                <label><strong>Assigned To:</strong></label>
+                                <select type="text" class="form-select" v-model="ticketForm.assigned_to" required></select>
+                            </div>
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -154,6 +157,7 @@
 
     const saveTicket = async () => {
         const formData = new FormData(formTicket.value);
+
         await axios.post('/api/save_ticket', formData).then((res) => {
             console.log(res);
             if(res.data.result == 1){
@@ -182,6 +186,7 @@
 
             ticketForm.id = res.data.ticketData.id;
             ticketForm.subject = res.data.ticketData.subject;
+            ticketForm.message = res.data.ticketData.message;
 
         }).catch((err) => {
             console.log(err);

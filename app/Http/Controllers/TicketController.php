@@ -32,15 +32,20 @@ class TicketController extends Controller
         }
 
     }
+
     public function save_ticket(Request $request){
+
         date_default_timezone_set('Asia/Manila');
 
         if(isset($request->ticketId)){ // * UPDATE
             // return $request->all();
+            return 'true';
+
             Ticket::where('id', $request->ticketId)
             ->update([
                 'subject' => $request->ticket_subject,
                 'message' => $request->ticket_message,
+                // 'message' => $request->ticket_message,
             ]);
             return response()->json(['result' => 1, 'msg' => 'Ticket Successfully Edited!']);
 
@@ -78,15 +83,13 @@ class TicketController extends Controller
             return response()->json(['result' => 1, 'msg' => 'Ticket Successfully Added!']);
         }
     }
+
     public function get_ticket_info(Request $request){
-        DB::beginTransaction();
         try{
             $ticket_data = Ticket::where('id', $request->id)->first();
-            DB::commit();
 
             return response()->json(['ticketData' => $ticket_data]);
-        }catch(Exception $e){
-            DB::rollback();
+        }catch(\Exception $e){
             return $e;
         }
     }

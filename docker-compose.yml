@@ -4,12 +4,18 @@ services:
     container_name: laravel-vue
     build: .
     volumes:
-      - ./:/var/www/html
+      - ./:/var/www/html/:cache
     ports:
       - 8000:80
     depends_on:
       - mysql_db
+      - phpmyadmin
   mysql_db:
+    # build: .
+    #   context: mysql
+    #   dockerfile: MariaDB-10.Dockerfile
+    volumes:
+      - ./mysql/:/var/lib/mysql:cache
     container_name: laravel-vue-mysql-db
     image: mysql:latest
     environment:
@@ -28,5 +34,9 @@ services:
     environment:
       - PMA_HOST=mysql_db
       - PMA_PORT=3306
+    depends_on:
+      - mysql_db
       # - PMA_ARBITRARY=1
 
+volumes:
+  mysql:

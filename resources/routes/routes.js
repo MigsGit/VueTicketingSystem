@@ -19,7 +19,7 @@ export default [
         component: Login,
         children: [
             {
-                path: '/',
+                path: '/vue_ticketing_system',
                 name: 'login',
                 component: Login,
             },

@@ -4,8 +4,11 @@ FROM php:8.3.4-apache as php
 # FROM php:8.3.4 as php
 # FROM php:8.2.0 as php
 # FROM php:8.1.0 as php
-WORKDIR /var/www/html
+WORKDIR /var/www/html/
 
+# RUN apt update -y
+
+# RUN sudo chmod -R 777 /var/www/html/
 # Mod Rewrite
 RUN a2enmod rewrite
 
@@ -20,6 +23,7 @@ RUN apt-get update -y && apt-get install -y \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libpng-dev
+# RUN sudo chmod -R 777 /var/www/html
 
 # Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

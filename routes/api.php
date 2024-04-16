@@ -23,7 +23,7 @@ use App\Http\Controllers\Api\UserController;
 //     return $request->user();
 // });
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
+// Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('logout',[AuthController::class, 'logout']);
     Route::get('check_ses',[AuthController::class, 'check_ses']);
 
@@ -50,4 +50,4 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('check_ses',[AuthController::class, 'check_ses']);
     Route::get('read_resolution_by_user_setting', [SettingController::class , 'readResolutionByUserSetting'])->name('read_resolution_by_user_setting');
 
-});
+// });
