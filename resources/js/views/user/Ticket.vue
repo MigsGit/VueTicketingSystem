@@ -81,7 +81,7 @@
                                 :options="options"
                             /> -->
                             <!-- <MultiselectElement
-                                v-model="ticketForm.assigned_person"
+                                v-model="ticketForm.assignedPerson"
                                 mode="tags"
                                 value-prop="value"
                                 label="label"
@@ -92,12 +92,13 @@
                                 @select="onSelect"
 
                             /> -->
+
                             <MultiselectElement
-                                v-model="ticketForm.assigned_person"
+                                v-model="ticketForm.assignedPerson"
                                 mode="tags"
                                 :close-on-select="false"
                                 :searchable="true"
-                                :options="options"
+                                :options="assignedToOptions"
                             />
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -136,13 +137,13 @@
         { label: 'React', value: '2' },
         { label: 'AngularJS', value: '3' },
     ]);
-    // const ticketModalTitle = ref();
+    let assignedToOptions = reactive ([]);
+
     const state = reactive({
         ticketModal: null,
         ticketModalTitle: 'Add Ticket'
     })
     const formTicket = ref();
-
     const initialTicketForm = reactive({
         id: "",
         subject: "",
@@ -162,6 +163,7 @@
         modalTicket.value.addEventListener('hidden.bs.modal', event => {
             console.log('modalUser closed');
             formTicket.value.reset();
+            ticketForm.assignedPerson = []
             Object.assign(ticketForm, initialTicketForm);
         });
     })
@@ -188,7 +190,7 @@
 
     const saveTicket = async () => {
         const formData = new FormData(formTicket.value);
-        formData.append("assigned_person",ticketForm.assigned_person);
+        formData.append("assigned_person",ticketForm.assignedPerson);
 
         await axios.post('/api/save_ticket', formData).then((res) => {
             // console.log(res);
@@ -209,21 +211,15 @@
     const editTicket = async (ticketId,e) => {
         const btnType = event.target.dataset.itemProcess;
         // const dataId = event.target.dataset.itemId;
-
-        // console.log(btnType);
         await axios.get('/api/get_ticket_info', { params: { id: ticketId } }).then((res) => {
             let data = res.data.ticketData;
-            // return;
             state.ticketModal.show();
             state.ticketModalTitle = "Edit Ticket";
 
             ticketForm.id = data.id;
             ticketForm.subject = data.subject;
             ticketForm.message = data.message;
-            ticketForm.assigned_person = res.data.assigned_to;
-
-
-
+            ticketForm.assignedPerson = res.data.assigned_to;
         }).catch((err) => {
             console.log(err);
             toastr.open({
@@ -234,9 +230,28 @@
             }); // * usage of Toastr notification
         });
     }
-    function onSelect(value) {
-        console.log(value) // this will log the value as { id: 1, text: 'vue' }
+    const getAssignedToOption = async () => {
+        await axios.get('/api/get_user_option').then((res) => {
+
+            let data = res.data.arr_user;
+            assignedToOptions = data.map((value) => {
+                return {
+                    value: value.id,
+                    label: value.name
+                }
+            });
+            console.log(assignedToOptions);
+        }).catch((err) => {
+            console.log(err);
+            // toastr.open({
+            //     message: err.response.data.msg,
+            //     type: 'error',
+            //     position: 'top-right',
+            //     duration: 2000,
+            // });
+        });
     }
+    getAssignedToOption();
 
 </script>
 <style  src="@vueform/multiselect/themes/default.css">

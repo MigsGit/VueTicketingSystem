@@ -29,6 +29,6 @@ Route::middleware('CheckHasSession')->group(function(){
 
 
 
-Route::post('/login',[AuthController::class, 'login']);
-Route::get('/logout',[AuthController::class, 'logout']);
-Route::get('/check_ses',[AuthController::class, 'check_ses']);
+Route::post('login',[AuthController::class, 'login']);
+Route::get('logout',[AuthController::class, 'logout']);
+Route::get('check_ses',[AuthController::class, 'check_ses']);

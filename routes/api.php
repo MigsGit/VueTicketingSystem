@@ -44,8 +44,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('get_trt_for_edit', [TRTController::class , 'get_trt_for_edit'])->name('get_trt_for_edit');
     Route::post('deact_trt', [TRTController::class , 'deact_trt'])->name('deact_trt');
 
-
-    Route::get('check_ses',[AuthController::class, 'check_ses']);
     Route::get('read_resolution_by_user_setting', [SettingController::class , 'readResolutionByUserSetting'])->name('read_resolution_by_user_setting');
+
+    Route::get('get_user_option',[UserController::class, 'getUserOption'])->name('get_user_option');
 
 });

@@ -58,4 +58,17 @@ class UserController extends Controller
             ], 400);
         }
     }
+    public function getUserOption (Request $request){
+        try {
+            $user = User::whereNull('deleted_at')->get(['id','name']);
+            return response()->json([ 'arr_user' => $user]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        // $arr_user  = [];
+        // foreach($user as $key => $val_user){
+        //     $arr_user['value'][] 		= $val_user['id'];
+        //     $arr_user['label'][] 		= $val_user['name'];
+        // }
+    }
 }
