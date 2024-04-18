@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('procedure_title')->nullable();
             $table->softDeletes();
             $table->timestamps();
-            
+
             $table->foreign('updated_by')->references('id')->on('users'); //foreign key for users
 
         });

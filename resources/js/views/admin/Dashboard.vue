@@ -25,10 +25,13 @@
     </div>
 </template>
 
-<script>
-    export default {
-
-    }
+<script setup>
+    // await axios.get('/check_ses').then((res) => {
+    //         // console.log(res);
+    //         columns.value = res.data;
+    // }).catch((err) => {
+    //     // console.log(err);
+    // });
 </script>
 
 <style lang="scss" scoped>

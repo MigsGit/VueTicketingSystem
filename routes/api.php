@@ -24,9 +24,7 @@ use App\Http\Controllers\Api\UserController;
 // });
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('logout',[AuthController::class, 'logout']);
-    Route::get('check_ses',[AuthController::class, 'check_ses']);
-
+    // Route::get('check_ses',[AuthController::class, 'check_ses']);
     Route::get('get_tickets', [TicketController::class, 'get_tickets']);
     Route::post('save_ticket', [TicketController::class, 'save_ticket']);
     Route::get('get_ticket_info', [TicketController::class, 'get_ticket_info']);

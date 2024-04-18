@@ -48,43 +48,67 @@
     </div>
 
     <div class="modal fade" id="ModalTicket" tabindex="-1" aria-labelledby="ModalTicketLabel" aria-hidden="true" ref="modalTicket">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title"><i class="fa-brands fa-d-and-d"></i> {{ state.ticketModalTitle }}</h4>
-                        <button type="button" class="btn-close" id="closebtn" data-item-process="create" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form method="post" @submit.prevent="saveTicket()" ref="formTicket" autocomplete="off">
-                        <div class="modal-body" >
-                            <input type="hidden" name="ticketId" v-model="ticketForm.id">
-                            <!-- <div class="input-group input-group-sm mb-3">
-                                <div class="input-group-prepend w-50">
-                                    <span class="input-group-text w-100" id="basic-addon1" style="background-color: #17a2b8; color: white;">Sub:</span>
-                                </div>
-
-                                    <input type="text" class="form-control" name="packingCtrl" id="packingControlId" readonly>
-                            </div> -->
-                            <div class="form-group">
-                                <label><strong>Subject:</strong></label>
-                                <input type="text" class="form-control" name="ticket_subject" v-model="ticketForm.subject" required>
-                            </div>
-                            <br>
-                            <div class="form-group">
-                                <label><strong>Message:</strong></label>
-                                <!-- <input type="text" class="form-control" name="ticket_subject" v-model="ticketForm.subject"> -->
-                                <textarea class="form-control" name="ticket_message" v-model="ticketForm.message" cols="30" rows="10" placeholder="Type Here..." required></textarea>
-                            </div>
-
-                        </div>
-                        <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <!-- <button type="submit" class="btn btn-primary" v-show="modalViewDatas.buttonFunction == 'update'" >Save changes</button> -->
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="fa-brands fa-d-and-d"></i> {{ state.ticketModalTitle }}</h4>
+                    <button type="button" class="btn-close" id="closebtn" data-item-process="create" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <form method="post" @submit.prevent="saveTicket()" ref="formTicket" autocomplete="off">
+                    <div class="modal-body" >
+                        <input type="hidden" name="ticketId" v-model="ticketForm.id">
+                        <!-- <div class="input-group input-group-sm mb-3">
+                            <div class="input-group-prepend w-50">
+                                <span class="input-group-text w-100" id="basic-addon1" style="background-color: #17a2b8; color: white;">Sub:</span>
+                            </div>
+
+                                <input type="text" class="form-control" name="packingCtrl" id="packingControlId" readonly>
+                        </div> -->
+                        <div class="form-group">
+                            <label><strong>Subject:</strong></label>
+                            <input type="text" class="form-control" name="ticket_subject" v-model="ticketForm.subject" required>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label><strong>Message:</strong></label>
+                            <!-- <input type="text" class="form-control" name="ticket_subject" v-model="ticketForm.subject"> -->
+                            <textarea class="form-control" name="ticket_message" v-model="ticketForm.message" cols="30" rows="10" placeholder="Type Here..." required></textarea>
+                        </div>
+                            <!-- <MultiselectElement
+                                v-model="value"
+                                mode="multiple"
+                                :close-on-select="false"
+                                :options="options"
+                            /> -->
+                            <!-- <MultiselectElement
+                                v-model="ticketForm.assigned_person"
+                                mode="tags"
+                                value-prop="value"
+                                label="label"
+                                :object="true"
+                                :close-on-select="false"
+                                :searchable="true"
+                                :options="options"
+                                @select="onSelect"
+
+                            /> -->
+                            <MultiselectElement
+                                v-model="ticketForm.assigned_person"
+                                mode="tags"
+                                :close-on-select="false"
+                                :searchable="true"
+                                :options="options"
+                            />
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <!-- <button type="submit" class="btn btn-primary" v-show="modalViewDatas.buttonFunction == 'update'" >Save changes</button> -->
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
 </template>
 
 <script setup>
@@ -93,6 +117,10 @@
 
     import DataTable from 'datatables.net-vue3';
     import DataTablesCore from 'datatables.net-bs5';
+    // import Multiselect from '@vueform/multiselect'
+    // import MultiselectElement from '@vueform/multiselect'
+    // import Vueform from '@vueform/vueform'
+
 
     DataTable.use(DataTablesCore);
 
@@ -102,6 +130,12 @@
     const modalTicket = ref();
     const tableTicket = ref();
     const columns = ref();
+    const value = ref (null);
+    const options = reactive ([
+        { label: 'Vue.js', value: '1' },
+        { label: 'React', value: '2' },
+        { label: 'AngularJS', value: '3' },
+    ]);
     // const ticketModalTitle = ref();
     const state = reactive({
         ticketModal: null,
@@ -136,7 +170,7 @@
         * This will serve as .draw()
     */
     watch(columns, async (columns) => {
-        console.log(columns);
+        // console.log(columns);
         dt.destroy();
         nextTick(() => {
             dt = $(tableTicket.value).DataTable()
@@ -154,8 +188,10 @@
 
     const saveTicket = async () => {
         const formData = new FormData(formTicket.value);
+        formData.append("assigned_person",ticketForm.assigned_person);
+
         await axios.post('/api/save_ticket', formData).then((res) => {
-            console.log(res);
+            // console.log(res);
             if(res.data.result == 1){
                 toastr.open({
                     message: res.data.msg,
@@ -174,14 +210,19 @@
         const btnType = event.target.dataset.itemProcess;
         // const dataId = event.target.dataset.itemId;
 
-        console.log(btnType);
+        // console.log(btnType);
         await axios.get('/api/get_ticket_info', { params: { id: ticketId } }).then((res) => {
-            console.log(res);
+            let data = res.data.ticketData;
+            // return;
             state.ticketModal.show();
             state.ticketModalTitle = "Edit Ticket";
 
-            ticketForm.id = res.data.ticketData.id;
-            ticketForm.subject = res.data.ticketData.subject;
+            ticketForm.id = data.id;
+            ticketForm.subject = data.subject;
+            ticketForm.message = data.message;
+            ticketForm.assigned_person = res.data.assigned_to;
+
+
 
         }).catch((err) => {
             console.log(err);
@@ -193,8 +234,11 @@
             }); // * usage of Toastr notification
         });
     }
+    function onSelect(value) {
+        console.log(value) // this will log the value as { id: 1, text: 'vue' }
+    }
 
 </script>
-<style>
+<style  src="@vueform/multiselect/themes/default.css">
 @import 'datatables.net-bs5';
 </style>

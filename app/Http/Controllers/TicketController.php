@@ -18,12 +18,9 @@ use App\Models\ResolutionProcedureTitle;
 class TicketController extends Controller
 {
     public function get_tickets(Request $request){
-        DB::beginTransaction();
         try{
-            $ticket_list = Ticket::where('created_by', $request->session()->get('id'))
+            return $ticket_list = Ticket::where('created_by', $request->session()->get('id'))
             ->get();
-            DB::commit();
-            return $ticket_list;
 
         }
         catch(Exception $e){
@@ -34,57 +31,66 @@ class TicketController extends Controller
     }
     public function save_ticket(Request $request){
         date_default_timezone_set('Asia/Manila');
+        try {
+            DB::beginTransaction();
+            if(isset($request->ticketId)){ // * UPDATE
+                // return $request->assigned_person;
+                Ticket::where('id', $request->ticketId)
+                ->update([
+                    'subject' => $request->ticket_subject,
+                    'message' => $request->ticket_message,
+                    'assigned_to' => $request->assigned_person,
+                ]);
+                DB::commit();
+                return response()->json(['result' => 1, 'msg' => 'Ticket Successfully Edited!']);
 
-        if(isset($request->ticketId)){ // * UPDATE
-            // return $request->all();
-            Ticket::where('id', $request->ticketId)
-            ->update([
-                'subject' => $request->ticket_subject,
-                'message' => $request->ticket_message,
-            ]);
-            return response()->json(['result' => 1, 'msg' => 'Ticket Successfully Edited!']);
+            }
+            else{  // * CREATE
+                $date = date('Ymd');
+                $ticket_number = "SR+$date";
+
+                $unique_number = Ticket::where('created_at', 'LIKE', date('Y')."%")->max('max_unique_no');
+
+                // return $unique_number;
+                if(isset($unique_number)){
+                    $unique_number++;
+                    $new_unique = str_pad($unique_number, 8, "0", STR_PAD_LEFT);
+                }
+                else{
+                    $unique_number = 1;
+                    $new_unique = str_pad($unique_number, 8, "0", STR_PAD_LEFT);
+                }
+                $ticket_number = "SR+$date$new_unique";
+
+                $insert_array = array(
+                    'ticket_no'         => $ticket_number,
+                    'max_unique_no'     => $new_unique,
+                    'subject'           => $request->ticket_subject,
+                    'message'           => $request->ticket_message,
+                    'created_by'        => $request->session()->get('id'),
+                    'created_at'        => NOW()
+                );
+
+                Ticket::insert(
+                    $insert_array
+                );
+                // DB::rollback();
+                DB::commit();
+                return response()->json(['result' => 1, 'msg' => 'Ticket Successfully Added!']);
+            }
+        } catch (\Throwable $th) {
+            DB::rollback();
+            throw $th;
 
         }
-        else{  // * CREATE
-            $date = date('Ymd');
-            $ticket_number = "SR+$date";
 
-            $unique_number = Ticket::where('created_at', 'LIKE', date('Y')."%")->max('max_unique_no');
-
-            // return $unique_number;
-            if(isset($unique_number)){
-                $unique_number++;
-                $new_unique = str_pad($unique_number, 8, "0", STR_PAD_LEFT);
-            }
-            else{
-                $unique_number = 1;
-                $new_unique = str_pad($unique_number, 8, "0", STR_PAD_LEFT);
-            }
-            $ticket_number = "SR+$date$new_unique";
-
-            $insert_array = array(
-                'ticket_no'         => $ticket_number,
-                'max_unique_no'     => $new_unique,
-                'subject'           => $request->ticket_subject,
-                'message'           => $request->ticket_message,
-                'created_by'        => $request->session()->get('id'),
-                'created_at'        => NOW()
-            );
-
-            Ticket::insert(
-                $insert_array
-            );
-
-            return response()->json(['result' => 1, 'msg' => 'Ticket Successfully Added!']);
-        }
     }
     public function get_ticket_info(Request $request){
         DB::beginTransaction();
         try{
             $ticket_data = Ticket::where('id', $request->id)->first();
             DB::commit();
-
-            return response()->json(['ticketData' => $ticket_data]);
+            return response()->json(['result' => 1, 'ticketData' => $ticket_data,'assigned_to' => explode(',',$ticket_data['assigned_to'])]);
         }catch(Exception $e){
             DB::rollback();
             return $e;
