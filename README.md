@@ -10,6 +10,7 @@ Go to .env, config the email
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+![](https://github.com/cdpagtalunan/pats_ppd/tree/main/resources/content/pats-ppd.png)
 <!-- PREVIEW -->
 ## PREVIEW
 ![](https://github.com/MigsGit/VueTicketingSystem/blob/main/resources/content/vue-ticketing.gif)
