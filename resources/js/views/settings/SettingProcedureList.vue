@@ -14,7 +14,7 @@
                             ]
                         }"
                         ref="tableProcedureList"
-                ></DataTable>
+                />
             </div>
         </div>
     </div>
@@ -127,7 +127,7 @@
             if(isSuccess === 'true'){
                 document.getElementById('closeBtn').click()
                 // readResProcedure();
-                tableProcedureList.value.dt.draw()
+                tableProcedureList.value.dt.draw();
                 toastr.open({
                     // message: res.data.msg,
                     message: 'Saved Sucessfully',
@@ -138,20 +138,10 @@
             }else{
                 alert('isSuccess false')
             }
-            // objModalNewResolution.hide()
-            // let data = respose['data']
-
-            // frmClosingTicket.value.resolution_procedure_title_id = data['resolution_procedure_title_id']
-            // resolutionProcedureDetails.value = data['resolution_procedure_lists'][0]['resolution_procedure_lists']
-            // fnReadResolutionProcedureByUser()
         } catch (error) {
             alert(error)
         }
     }
-
-    // tableProcedureList.value.dt.draw()
-        // tableProcedureList.value.ajax.url('/api/read_resolution_by_user_setting').load(); /* load the url of DT */
-
 </script>
 
 <style lang="scss" scoped>

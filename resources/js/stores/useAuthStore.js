@@ -34,11 +34,11 @@ export const useAuthStore = defineStore("auth", {
             });
         },
         async logout(){
-            await axios.get('/api/logout').then((res)=> {
+            await axios.get('/logout').then((res)=> {
                 console.log('useAuthStore: logout');
                 this.$reset();
                 Router.push({name: 'login'});
-                location.reload();
+                // location.reload();
             })
             .catch((err)=>{
 

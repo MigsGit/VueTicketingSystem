@@ -47,7 +47,7 @@
         dt.destroy();
         nextTick(() => {
             dt = $(tableTRT.value).DataTable()
-        }); 
+        });
     });
 
     const getTRT = async () => {
@@ -88,7 +88,7 @@
             getTRT();
 
         }).catch((err) => {
-            
+
         });
     }
 
@@ -151,7 +151,7 @@
                             <td>{{ row.description }}</td>
                             <td>{{ row.user_details.name }}</td>
                         </tr>
-                    </tbody>                    
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -208,6 +208,7 @@
                                 <label>Description:</label>
                                 <input type="text" class="form-control" name="description" v-model="trtFormInputs.description">
                             </div>
+                            
                     </div>
                     <div class="modal-footer d-flex justify-content-between">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>

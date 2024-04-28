@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+// use Session;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
@@ -13,6 +14,7 @@ class AuthController extends Controller
     //
     public function login(LoginRequest $request){
         $fields = $request->validated();
+        // return $request->session()->put('id', Auth::user()->id);
         $user_info = User::where('email', $request->email)->first();
 
         if(isset($user_info)){
@@ -21,17 +23,17 @@ class AuthController extends Controller
                     'msg' => "User account is deactivated <br> Please call administrator."
                 ], 402);
             }
-            if(!Auth::attempt([
+            if(!Auth::attempt(  [
                 'email' => $request->email,
                 'password' => $request->password
-            ])){
+            ])  ){
                 return response()->json([
                     'msg' => "Username or Password is incorrect"
                 ], 401);
             }
+
             $request->session()->put('id', Auth::user()->id);
             $request->session()->put('username', Auth::user()->email);
-
             return response()->json(['msg' => 'Login Successful','userData' => Auth::user()]);
 
         }
@@ -47,6 +49,8 @@ class AuthController extends Controller
         $var = $request->session()->get('id');
         $var1 = $request->session()->get('username');
         $var2 = $request->session()->token();
+        // var_dump(Session::all());
+        // return;
         return response()->json(['session_id' => $var,'session_userN' => $var1, 'token' => $var2]);
     }
 }

@@ -15,14 +15,15 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->string('ticket_no');
-            $table->string('max_unique_no');
-            $table->string('subject');
-            $table->string('message');
+            $table->string('ticket_no')->nullable();
+            $table->string('max_unique_no')->nullable();
+            $table->string('subject')->nullable();
+            $table->string('message')->nullable();
             $table->string('status')->default(0)->comment = "0-unassigned, 1-assigned, 2-DNMR, 3-closed";
-            $table->unsignedSmallInteger('assigned_to')->nullable();
+            $table->bigInteger('trt_id')->unsigned()->comment = "trt_id";
+            $table->string('assigned_to')->nullable()->comment = "user_id";
             $table->unsignedSmallInteger('resolution_time')->nullable();
-            $table->unsignedSmallInteger('created_by');
+            $table->unsignedSmallInteger('created_by')->nullable();
             $table->unsignedSmallInteger('updated_by')->nullable();
             $table->softDeletes();
             $table->timestamps();

@@ -12,13 +12,14 @@
         "postcss": "^8.1.14",
         "sass": "^1.66.1",
         "vite": "^4.0.0"
-        
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.4.2",
         "@fortawesome/free-solid-svg-icons": "^6.4.2",
         "@fortawesome/vue-fontawesome": "^3.0.3",
         "@vitejs/plugin-vue": "^4.3.3",
+        "@vueform/multiselect": "^2.6.7",
+        "@vueform/vueform": "^1.9.5",
         "boostrap": "^2.0.0",
         "datatables.net-bs5": "^1.13.6",
         "datatables.net-vue3": "^2.1.3",

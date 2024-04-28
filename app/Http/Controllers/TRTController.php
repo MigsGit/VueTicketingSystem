@@ -17,11 +17,10 @@ class TRTController extends Controller
 
         return $trt_details;
     }
-
     public function save_trt(Request $request){
         // return $request->all();
         DB::beginTransaction();
-        
+
         if(isset($request->trtId)){ // EDIT
             try{
                 Trt::where('id', $request->trtId)
@@ -30,9 +29,10 @@ class TRTController extends Controller
                     'duration_day' => $request->days,
                     'duration_hour' => $request->hours,
                     'description' => $request->description,
+                    'created_by' => $request->session()->get('id'),
                     'updated_by' => $request->session()->get('id'),
                     'updated_at' => NOW(),
-                ]); 
+                ]);
                 DB::commit();
                 return response()->json(['result' => 1, 'msg' => "Successfully edited"]);
 
@@ -50,7 +50,7 @@ class TRTController extends Controller
                     'description' => $request->description,
                     'created_by' => $request->session()->get('id'),
                     'created_at' => NOW()
-                ]); 
+                ]);
                 DB::commit();
                 return response()->json(['result' => 1, 'msg' => "Successfully Added"]);
 
@@ -89,13 +89,19 @@ class TRTController extends Controller
                     'deleted_at' => null
                 ]);
             }
-           
             DB::commit();
-
             return response()->json(['result'=> 1, 'msg' => "Status update success!"]);
-        } catch (Excemption $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             return $e;
+        }
+    }
+    public function get_trt_option(Request $request){
+        try {
+            $arr_trt = Trt::whereNull('deleted_at')->get(['id','code']);
+            return response()->json([ 'arr_trt' => $arr_trt]);
+        } catch (\Throwable $th) {
+            throw $th;
         }
     }
 }
