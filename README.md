@@ -10,6 +10,9 @@ Go to .env, config the email
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+<!-- PREVIEW -->
+## PREVIEW
+![](https://github.com/MigsGit/VueTicketingSystem/blob/main/resources/content/vue-ticketing.gif)
 
 ## Built With
 
