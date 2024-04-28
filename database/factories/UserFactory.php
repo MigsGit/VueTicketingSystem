@@ -24,6 +24,13 @@ class UserFactory extends Factory
             'password' => '$2a$12$nFYWCwS7l.32qSuia1cGAuf/9rMopRNK7MieZBaS4itx1jRaTVfY.', // password
             'remember_token' => Str::random(10),
         ];
+        // return [
+        //     'name' => $this->faker->name(),
+        //     'email' => $this->faker->unique()->safeEmail(),
+        //     'email_verified_at' => now(),
+        //     'password' => '$2a$12$nFYWCwS7l.32qSuia1cGAuf/9rMopRNK7MieZBaS4itx1jRaTVfY.', // password
+        //     'remember_token' => Str::random(10),
+        // ];
     }
 
     /**

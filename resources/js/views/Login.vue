@@ -1,6 +1,4 @@
 <script setup>
-import { useRouter, useRoute  } from 'vue-router'
-
 import { useAuthStore } from "../stores";
 
 const infoLogin = {
@@ -24,7 +22,7 @@ const sigin = async () => {
                     <div class="row justify-content-center">
                         <div class="col-lg-5">
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Vue Login</h3></div>
+                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
                                 <div class="card-body">
                                     <form class="user" @submit.prevent="sigin">
                                         <div class="form-floating mb-3">
@@ -34,8 +32,9 @@ const sigin = async () => {
                                         <div class="form-floating mb-3">
                                             <input class="form-control" v-model="infoLogin.password" ref="txtPassword" type="password" placeholder="Password"/>
                                             <label for="inputPassword">Passwords</label>
-                                            <div v-if="this.errorMsg != null" class="invalid-feedback">
-                                            </div>
+
+                                            <!-- <div v-if="this.errorMsg != null" class="invalid-feedback">
+                                            </div> -->
                                         </div>
                                         <div class="form-check mb-3">
                                             <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />

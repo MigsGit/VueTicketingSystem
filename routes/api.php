@@ -39,10 +39,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('read_user_info', [UserController::class , 'readUserInfo'])->name('read_user_info');
     Route::post('save_user_info', [UserController::class , 'saveUserInfo'])->name('save_user_info');
 
-    Route::get('get_trt', [TRTController::class , 'get_trt'])->name('get_trt');
-    Route::post('save_trt', [TRTController::class , 'save_trt'])->name('save_trt');
-    Route::get('get_trt_for_edit', [TRTController::class , 'get_trt_for_edit'])->name('get_trt_for_edit');
     Route::post('deact_trt', [TRTController::class , 'deact_trt'])->name('deact_trt');
+    Route::post('save_trt', [TRTController::class , 'save_trt'])->name('save_trt');
+    Route::get('get_trt', [TRTController::class , 'get_trt'])->name('get_trt');
+    Route::get('get_trt_for_edit', [TRTController::class , 'get_trt_for_edit'])->name('get_trt_for_edit');
+    Route::get('get_trt_option', [TRTController::class , 'get_trt_option'])->name('get_trt_option');
 
     Route::get('read_resolution_by_user_setting', [SettingController::class , 'readResolutionByUserSetting'])->name('read_resolution_by_user_setting');
 

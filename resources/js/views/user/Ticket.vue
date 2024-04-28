@@ -5,8 +5,20 @@
             <div class="card-body overflow-auto">
                 <button type="button" class="btn btn-primary" style="float: right !important;" data-bs-toggle="modal" data-bs-target="#ModalTicket" @click="state.ticketModalTitle = 'Add Ticket'"><i class="fas fa-plus"></i> Add Ticket</button>
                 <br><br>
-                <table class="table table-sm table-bordered table-striped table-hover dt-responsive wrap" ref="tableTicket">
-                    <thead>
+
+                <DataTable
+                        :columns="columns"
+                        class="table table-striped table-responsive mt-2"
+                        ajax="/api/get_tickets"
+                        :options="{
+                            serverSide: true, //Serverside true will load the network
+                            columnDefs:[
+                                // {orderable:false,target:[0]}
+                            ]
+                        }"
+                        ref="tableTicket"
+                >
+                <thead>
                         <tr>
                             <th>Action</th>
                             <th>Status</th>
@@ -16,33 +28,8 @@
                             <th>Assigned To</th>
                             <th>Resolution Time</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="row in columns" :key="row.id">
-
-                            <td class="text-center">
-                                <div class="row">
-                                    <div class="col-sm-3 mr-3">
-                                        <button type="button" class="btn btn-info btn-sm" :disabled="row.status != 0" @click="editTicket(row.id,$event)" data-item-process="Edit"><i class="fas fa-edit"></i></button>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <button type="button" class="btn btn-outline-info btn-sm" :disabled="row.status != 0" @click="editTicket(row.id,$event)" data-item-process="View"><i class="fas fa-eye"></i></button>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="text-center">
-                                <span class="badge bg-warning" v-if="row.status == 0">Pending</span>
-                                <span class="badge bg-info" v-else-if="row.status == 1">Assigned</span>
-                                <span class="badge bg-success" v-else-if="row.status == 3">Closed</span>
-                            </td>
-                            <td>{{ row.ticket_no }}</td>
-                            <td>{{ row.subject }}</td>
-                            <td>{{ row.message }}</td>
-                            <td>{{ row.assign_to }}</td>
-                            <td>{{ row.res_time }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                </thead>
+                </DataTable>
             </div>
         </div>
     </div>
@@ -56,7 +43,7 @@
                 </div>
                 <form method="post" @submit.prevent="saveTicket()" ref="formTicket" autocomplete="off">
                     <div class="modal-body" >
-                        <input type="hidden" name="ticketId" v-model="ticketForm.id">
+                        <input type="" v-model="ticketForm.ticketId">
                         <!-- <div class="input-group input-group-sm mb-3">
                             <div class="input-group-prepend w-50">
                                 <span class="input-group-text w-100" id="basic-addon1" style="background-color: #17a2b8; color: white;">Sub:</span>
@@ -66,40 +53,35 @@
                         </div> -->
                         <div class="form-group">
                             <label><strong>Subject:</strong></label>
-                            <input type="text" class="form-control" name="ticket_subject" v-model="ticketForm.subject" required>
+                            <input type="text" class="form-control" v-model="ticketForm.subject" ref="subject" :readonly="state.ticketModalTitle === 'Assigning Ticket'" required>
                         </div>
                         <br>
                         <div class="form-group">
                             <label><strong>Message:</strong></label>
-                            <!-- <input type="text" class="form-control" name="ticket_subject" v-model="ticketForm.subject"> -->
-                            <textarea class="form-control" name="ticket_message" v-model="ticketForm.message" cols="30" rows="10" placeholder="Type Here..." required></textarea>
+                            <textarea class="form-control" v-model="ticketForm.message" ref="message" cols="30" rows="10" placeholder="Type Here..." :readonly="state.ticketModalTitle === 'Assigning Ticket'" required></textarea>
                         </div>
-                            <!-- <MultiselectElement
-                                v-model="value"
-                                mode="multiple"
-                                :close-on-select="false"
-                                :options="options"
-                            /> -->
-                            <!-- <MultiselectElement
-                                v-model="ticketForm.assignedPerson"
-                                mode="tags"
-                                value-prop="value"
-                                label="label"
-                                :object="true"
-                                :close-on-select="false"
-                                :searchable="true"
-                                :options="options"
-                                @select="onSelect"
-
-                            /> -->
-
+                        <div class="form-group" v-show="state.ticketModalTitle === 'Assigning Ticket'" >
+                            <label><strong>Assiged to: {{ state.ticketModalTitle }}</strong></label>
                             <MultiselectElement
                                 v-model="ticketForm.assignedPerson"
                                 mode="tags"
                                 :close-on-select="false"
                                 :searchable="true"
                                 :options="assignedToOptions"
+                                ref="assignedPerson"
                             />
+                        </div>
+                        <div class="form-group" v-show="state.ticketModalTitle === 'Assigning Ticket'" >
+                            <label><strong>TRT:</strong></label>
+                            <MultiselectElement
+                                v-model="ticketForm.trtId"
+                                :close-on-select="true"
+                                :searchable="true"
+                                :options="trtOptions"
+                                ref="assignedPerson"
+                            />
+                        </div>
+
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -115,85 +97,81 @@
 <script setup>
     // TODO: Do the DataTable
     //TODO: Query for assigned ticket
-
     import DataTable from 'datatables.net-vue3';
     import DataTablesCore from 'datatables.net-bs5';
-    // import Multiselect from '@vueform/multiselect'
-    // import MultiselectElement from '@vueform/multiselect'
-    // import Vueform from '@vueform/vueform'
-
-
     DataTable.use(DataTablesCore);
-
     import { onMounted, ref, reactive, watch,nextTick } from "vue";
     import $ from 'jquery';
-
+    import { useToast } from 'vue-toast-notification';
+    const toastr = useToast();
     const modalTicket = ref();
     const tableTicket = ref();
-    const columns = ref();
-    const value = ref (null);
-    const options = reactive ([
-        { label: 'Vue.js', value: '1' },
-        { label: 'React', value: '2' },
-        { label: 'AngularJS', value: '3' },
-    ]);
-    let assignedToOptions = reactive ([]);
 
     const state = reactive({
         ticketModal: null,
         ticketModalTitle: 'Add Ticket'
     })
     const formTicket = ref();
-    const initialTicketForm = reactive({
-        id: "",
-        subject: "",
-        message: "",
-    });
-    const ticketForm = reactive({ ...initialTicketForm });
+    const userRoles = ref();
 
-    import { useToast } from 'vue-toast-notification';
-    const toastr = useToast();
+    // const initialTicketForm = reactive({
+    //     id: "",
+    //     subject: "",
+    //     message: "",
+    // });
+    // const ticketForm = reactive({ ...initialTicketForm });
+    const ticketForm = ref({ });
 
-    var dt = null;
-    dt = $(tableTicket.value).DataTable({});
+    const columns =[
+        {
+            data: 'action',
+            orderable: false,
+            searchable: false,
+            createdCell(cell) {
+                let btnEditTicket = cell.querySelector("#btnEditTicket")
+                let btnViewTicket = cell.querySelector("#btnViewTicket")
+                if((btnEditTicket !== null)){
+                    btnEditTicket.addEventListener('click', function(event){
+                        event.preventDefault();
+                        let ticketId = this.getAttribute('ticket-id')
+                        let btnType = this.getAttribute('title')
+                        editTicket(ticketId,btnType)
+                    });
+                }
+                if((btnViewTicket !== null)){
+                    btnViewTicket.addEventListener('click', function(event){
+                        event.preventDefault();
+                        let ticketId = this.getAttribute('ticket-id')
+                        let btnType = this.getAttribute('title')
+                        editTicket(ticketId,btnType)
+                    });
+                }
+            },
+        },
+        { data: 'get_status'},
+        { data: 'ticket_no'},
+        { data: 'subject'},
+        { data: 'message'},
+        { data: 'assigned_to'},
+        { data: 'resolution_time'}
+    ];
+
+    let assignedToOptions = reactive ([]);
+    let trtOptions = reactive ([]);
 
     onMounted( async () => {
-        await getTicket();
+        // await getTicket();
         state.ticketModal = new Modal(modalTicket.value, {});
         modalTicket.value.addEventListener('hidden.bs.modal', event => {
             console.log('modalUser closed');
-            formTicket.value.reset();
-            ticketForm.assignedPerson = []
-            Object.assign(ticketForm, initialTicketForm);
+            // ticketForm.assignedPerson = []
+            // Object.assign(ticketForm, initialTicketForm);
         });
     })
-    /*
-        * WATCH will reload the DataTable after saving.
-        * This will serve as .draw()
-    */
-    watch(columns, async (columns) => {
-        // console.log(columns);
-        dt.destroy();
-        nextTick(() => {
-            dt = $(tableTicket.value).DataTable()
-        });
-    });
-
-    const getTicket = async () => {
-        await axios.get('/api/get_tickets').then((res) => {
-            // console.log(res.data);
-            columns.value = res.data;
-        }).catch((err)=>{
-
-        });
-    }
 
     const saveTicket = async () => {
-        const formData = new FormData(formTicket.value);
-        formData.append("assigned_person",ticketForm.assignedPerson);
 
-        await axios.post('/api/save_ticket', formData).then((res) => {
-            // console.log(res);
+        await axios.post('/api/save_ticket', ticketForm.value).then((res) => {
             if(res.data.result == 1){
                 toastr.open({
                     message: res.data.msg,
@@ -201,25 +179,33 @@
                     position: 'top-right',
                     duration: 2000,
                 }); // * usage of Toastr notification
-                getTicket();
+                tableTicket.value.dt.draw();
+                console.log(tableTicket.value);
+                console.log(tableTicket.value.dt);
                 state.ticketModal.hide();
             }
         }).catch((err) => {
 
         });
     }
-    const editTicket = async (ticketId,e) => {
-        const btnType = event.target.dataset.itemProcess;
-        // const dataId = event.target.dataset.itemId;
+    const editTicket = async (ticketId,btnType) => {
         await axios.get('/api/get_ticket_info', { params: { id: ticketId } }).then((res) => {
             let data = res.data.ticketData;
+            // console.log(data);
+            // return;
             state.ticketModal.show();
-            state.ticketModalTitle = "Edit Ticket";
 
-            ticketForm.id = data.id;
-            ticketForm.subject = data.subject;
-            ticketForm.message = data.message;
-            ticketForm.assignedPerson = res.data.assigned_to;
+            /* full_name.value.classList.add('is-invalid')*/
+            if(btnType === 'Edit'){
+                state.ticketModalTitle = "Edit Ticket";
+            }else{
+                state.ticketModalTitle = "Assigning Ticket";
+            }
+            ticketForm.value.ticketId = data.id;
+            ticketForm.value.subject = data.subject;
+            ticketForm.value.message = data.message;
+            ticketForm.value.trtId = data.trt_id;
+            ticketForm.value.assignedPerson = res.data.assigned_to;
         }).catch((err) => {
             console.log(err);
             toastr.open({
@@ -240,18 +226,38 @@
                     label: value.name
                 }
             });
-            console.log(assignedToOptions);
         }).catch((err) => {
             console.log(err);
-            // toastr.open({
-            //     message: err.response.data.msg,
-            //     type: 'error',
-            //     position: 'top-right',
-            //     duration: 2000,
-            // });
+            toastr.open({
+                message: err.response.data,
+                type: 'error',
+                position: 'top-right',
+                duration: 2000,
+            });
+        });
+    }
+    const getTRTOption = async () => {
+        await axios.get('/api/get_trt_option').then((res) => {
+            let data = res.data;
+            trtOptions = data.arr_trt.map((value) => {
+                return {
+                    value: value.id,
+                    label: value.code
+                }
+            });
+            // console.log(assignedToOptions);
+        }).catch((err) => {
+            console.log(err);
+            toastr.open({
+                message: err.response.data,
+                type: 'error',
+                position: 'top-right',
+                duration: 2000,
+            });
         });
     }
     getAssignedToOption();
+    getTRTOption();
 
 </script>
 <style  src="@vueform/multiselect/themes/default.css">

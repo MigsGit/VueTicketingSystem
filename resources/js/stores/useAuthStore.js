@@ -38,7 +38,7 @@ export const useAuthStore = defineStore("auth", {
                 console.log('useAuthStore: logout');
                 this.$reset();
                 Router.push({name: 'login'});
-                location.reload();
+                // location.reload();
             })
             .catch((err)=>{
 
