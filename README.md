@@ -12,8 +12,8 @@ Go to .env, config the email
 ## About The Project
 ![](https://github.com/MigsGit/VueTicketingSystem/blob/main/resources/content/vue-ticketing.png)
 <!-- PREVIEW -->
-[//]: #  ## PREVIEW
-[//]: #  ![](https://github.com/MigsGit/VueTicketingSystem/blob/main/resources/content/vue-ticketing.gif)
+[//]: ## PREVIEW
+[//]: ![](https://github.com/MigsGit/VueTicketingSystem/blob/main/resources/content/vue-ticketing.gif)
 
 ## Built With
 
