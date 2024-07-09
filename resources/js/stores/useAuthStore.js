@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import Router from "../../routes/";
-import axios from "axios";
+// import axios from "axios";
+// import axios from "../axios";
 // import {useToastr} from '../components/toaster.js';
 import { useToast } from 'vue-toast-notification';
 const toastr = useToast();
@@ -16,7 +17,7 @@ export const useAuthStore = defineStore("auth", {
     },
     actions: {
         async login(credentials){
-            await axios.post('/login',credentials).then((res)=>{
+            await axios.post('login',credentials).then((res)=>{
                 console.log(res.data.userData);
                 this.email = res.data.userData.email;
                 this.name = res.data.userData.name;
@@ -34,7 +35,7 @@ export const useAuthStore = defineStore("auth", {
             });
         },
         async logout(){
-            await axios.get('/logout').then((res)=> {
+            await axios.get('logout').then((res)=> {
                 console.log('useAuthStore: logout');
                 this.$reset();
                 Router.push({name: 'login'});
