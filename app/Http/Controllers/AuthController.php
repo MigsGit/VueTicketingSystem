@@ -14,7 +14,7 @@ class AuthController extends Controller
     //
     public function login(LoginRequest $request){
         $fields = $request->validated();
-        // return $request->session()->put('id', Auth::user()->id);
+        //$request->session()->put('id', Auth::user()->id);
         $user_info = User::where('email', $request->email)->first();
 
         if(isset($user_info)){

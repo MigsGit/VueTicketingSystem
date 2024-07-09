@@ -2,13 +2,9 @@ import "bootstrap";
 import _ from 'lodash';
 import { Modal } from 'bootstrap';
 import { useToast } from 'vue-toast-notification';
-
 import axios from 'axios';
 import $ from "jquery";
-
 import Swal from 'sweetalert2';
-
-
 window._ = _;
 
 /**
@@ -16,12 +12,10 @@ window._ = _;
  * to our Laravel back-end. This library automatically handles sending the
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
-
-
-
 window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
+// window.axios.baseURL = import.meta.env.APP_URL
+window.axios.defaults.baseURL = 'http://rapidv/vue-ticketing-system/';
 
 window.Modal = Modal;
 window.Toast = useToast;
@@ -30,7 +24,7 @@ window.Swal = Swal;
 
 try {
     window.$ = $;
-
+    console.log($)
 } catch (e) {
     console.log("JQUERY ERROR: " + e);
 }

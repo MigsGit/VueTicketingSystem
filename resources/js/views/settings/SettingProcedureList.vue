@@ -6,7 +6,7 @@
                 <DataTable
                         :columns="columns"
                         class="table table-striped table-responsive mt-2"
-                        ajax="/api/read_resolution_by_user_setting"
+                        ajax="/vue-ticketing-system/api/read_resolution_by_user_setting"
                         :options="{
                             serverSide: true, //Serverside true will load the network
                             columnDefs:[

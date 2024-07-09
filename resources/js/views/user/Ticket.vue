@@ -9,7 +9,7 @@
                 <DataTable
                         :columns="columns"
                         class="table table-striped table-responsive mt-2"
-                        ajax="/api/get_tickets"
+                        ajax="/vue-ticketing-system/api/get_tickets"
                         :options="{
                             serverSide: true, //Serverside true will load the network
                             columnDefs:[
@@ -171,7 +171,7 @@
 
     const saveTicket = async () => {
 
-        await axios.post('/api/save_ticket', ticketForm.value).then((res) => {
+        await axios.post('api/save_ticket', ticketForm.value).then((res) => {
             if(res.data.result == 1){
                 toastr.open({
                     message: res.data.msg,
@@ -189,7 +189,7 @@
         });
     }
     const editTicket = async (ticketId,btnType) => {
-        await axios.get('/api/get_ticket_info', { params: { id: ticketId } }).then((res) => {
+        await axios.get('api/get_ticket_info', { params: { id: ticketId } }).then((res) => {
             let data = res.data.ticketData;
             // console.log(data);
             // return;
@@ -217,7 +217,7 @@
         });
     }
     const getAssignedToOption = async () => {
-        await axios.get('/api/get_user_option').then((res) => {
+        await axios.get('api/get_user_option').then((res) => {
 
             let data = res.data.arr_user;
             assignedToOptions = data.map((value) => {
@@ -237,7 +237,7 @@
         });
     }
     const getTRTOption = async () => {
-        await axios.get('/api/get_trt_option').then((res) => {
+        await axios.get('api/get_trt_option').then((res) => {
             let data = res.data;
             trtOptions = data.arr_trt.map((value) => {
                 return {

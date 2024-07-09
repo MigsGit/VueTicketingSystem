@@ -15,22 +15,22 @@ import AssignedTicket from '../js/views/iss/AssignedTicket.vue';
 console.log('routes');
 export default [
     {
-        path: '/',
+        path: '/vue-ticketing-system',
         component: Login,
         children: [
             {
-                path: '/',
+                path: '/vue-ticketing-system',
                 name: 'login',
                 component: Login,
             },
         ]
     },
     {
-        path: '/unauthorized',
+        path: '/vue-ticketing-system/unauthorized',
         component: Unauthorized,
     },
     {
-        path: '/panel_template/',
+        path: '/vue-ticketing-system/index/',
         component: PanelTemplate,
         children: [
             {

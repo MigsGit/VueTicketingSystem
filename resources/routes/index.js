@@ -7,6 +7,7 @@ const router = createRouter({
         createWebHashHistory is creating a #hashtag to direct to diff (router 4)
      */
     // history: createWebHashHistory(),
+    base: process.env.BASE_URL,
     history: createWebHistory(),
     routes
 })
