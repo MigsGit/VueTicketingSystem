@@ -26,6 +26,9 @@ Go to .env, config the email
 * [DataTable](https://datatables.net/manual/vue)
 * [Axios](https://github.com/axios/axios)
 * [Font Awesome 5](https://fontawesome.com/)
+
+```
+
 ```
 npm i @fortawesome/fontawesome-svg-core
 npm i @fortawesome/vue-fontawesome

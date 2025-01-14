@@ -8,7 +8,7 @@ const useAuth = useAuthStore();
             <div class="nav">
                 <div class="sb-sidenav-menu-heading">Interface</div>
                 <router-link class="nav-link" :to="{ name: 'tim' }">
-                    <font-awesome-icon class="nav-icon" icon="gauge-high" />&nbsp;TIM
+                    <font-awesome-icon class="nav-icon" icon="ticket" />&nbsp;TIM
                     <!-- <i class="fas fa-tachometer-alt" icon="fa-tachometer-alt"></i>&nbsp;Dashboard -->
                 </router-link>
                 <router-link class="nav-link" :to="{ name: 'dashboard' }">

@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Ticket</h1>
         <div class="card mt-5"  style="width: 100%;">
+            <h1 class="mt-4">Ticketssss</h1>
             <div class="card-body overflow-auto">
                 <button type="button" class="btn btn-primary" style="float: right !important;" data-bs-toggle="modal" data-bs-target="#ModalTicket" @click="state.ticketModalTitle = 'Add Ticket'"><i class="fas fa-plus"></i> Add Ticket</button>
                 <br><br>
@@ -157,7 +157,7 @@
     ];
 
     let assignedToOptions = reactive ([]);
-    let trtOptions = reactive ([]);
+    let trtOptions = ref ([]);
 
     onMounted( async () => {
         // await getTicket();
@@ -236,15 +236,18 @@
             });
         });
     }
+    alert('dassadasd')
+
     const getTRTOption = async () => {
         await axios.get('api/get_trt_option').then((res) => {
             let data = res.data;
-            trtOptions = data.arr_trt.map((value) => {
-                return {
-                    value: value.id,
-                    label: value.code
-                }
-            });
+
+            // trtOptions.value = data.arr_trt.map((value) => {
+            //     return {
+            //         value: value.id,
+            //         label: value.code
+            //     }
+            // });
             // console.log(assignedToOptions);
         }).catch((err) => {
             console.log(err);

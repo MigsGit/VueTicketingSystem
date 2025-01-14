@@ -7,6 +7,7 @@ import Dashboard from '../js/views/admin/Dashboard.vue'
 import UserMaster from '../js/views/admin/UserMaster.vue'
 import TrtMaintenance from '../js/views/admin/TrtMaintenance.vue'
 import SettingProcedureList from '../js/views/settings/SettingProcedureList.vue'
+import Tim from '../js/views/admin/Tim.vue'
 
 // USER
 import Ticket from '../js/views/user/Ticket.vue';
@@ -65,6 +66,11 @@ export default [
                 path: 'setting_procedure_list',
                 name: 'setting_procedure_list',
                 component: SettingProcedureList
+            },
+            {
+                path: 'tim',
+                name: 'tim',
+                component: Tim
             },
 
 
