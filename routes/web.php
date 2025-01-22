@@ -18,11 +18,11 @@ Route::any('users/{id}', function ($id) {
 
 });
 Route::middleware('CheckHasNoSession')->group(function(){
-    Route::view('/', 'main');
+    Route::view('/', 'main')->name('main');
     Route::view('/unauthorized', 'main');
 });
 Route::middleware('CheckHasSession')->group(function(){
-    Route::get('/panel_template/{any}', function(){
+    Route::get('/index/{any}', function(){
         return view('main');
     })->where('any','.*');
 });

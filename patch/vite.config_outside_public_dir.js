@@ -16,12 +16,6 @@ export default defineConfig({
         },
         chunkSizeWarningLimit:2000,
     },
-    server: {
-        // hmr: {
-        //     // host: 'rapidv/RapidV',
-        // },
-        origin: 'http://rapidv/vue-ticketing-system',
-    },
     plugins: [
         vue({
             template: {

@@ -17,7 +17,7 @@ class CheckHasNoSession
     public function handle(Request $request, Closure $next)
     {
         if($request->session()->exists('id')){
-            return redirect('/panel_template/dashboard');
+            return redirect('/index/dashboard');
             // return redirect('/');
         }
         return $next($request);

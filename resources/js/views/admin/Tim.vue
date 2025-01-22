@@ -1,11 +1,10 @@
 <template>
     <div class="container-fluid px-4">
         <div class="card mt-5"  style="width: 100%;">
-            <h1 class="mt-4">Ticketssss</h1>
+            <h1 class="mt-4">Ticketing Management Dashboard</h1>
             <div class="card-body overflow-auto">
-                <button type="button" class="btn btn-primary" style="float: right !important;" data-bs-toggle="modal" data-bs-target="#ModalTicket" @click="state.ticketModalTitle = 'Add Ticket'"><i class="fas fa-plus"></i> Add Ticket</button>
-                <br><br>
-
+                <!-- <button type="button" class="btn btn-primary" style="float: right !important;" data-bs-toggle="modal" data-bs-target="#ModalTicket" @click="state.ticketModalTitle = 'Add Ticket'"><i class="fas fa-plus"></i> Add Ticket</button>
+                <br><br> -->
                 <DataTable
                         :columns="columns"
                         class="table table-striped table-responsive mt-2"
