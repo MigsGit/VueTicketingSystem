@@ -236,7 +236,6 @@
             });
         });
     }
-    alert('dassadasd')
 
     const getTRTOption = async () => {
         await axios.get('api/get_trt_option').then((res) => {
